@@ -22,5 +22,3 @@
 - Lombok
 - Spring Boot Devtools
 - Springdoc
-
-test

@@ -20,11 +20,11 @@ public class HospitalCategory extends BaseEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@MapsId("medicalCategoryId")  // HospitalCategoryId의 categoryId와 매핑
-	@JoinColumn(name = "medicalCategory_id", nullable = false)
-	private MedicalCategory category;
+	//@JoinColumn(name = "medicalCategory_id", nullable = false)
+	private MedicalCategory medicalCategory;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@MapsId("hospitalId")  // HospitalCategoryId의 hospitalId와 매핑
-	@JoinColumn(name = "hospital_id", nullable = false)
+	//@JoinColumn(name = "hospital_id", nullable = false)
 	private Hospital hospital;
 }

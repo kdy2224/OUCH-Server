@@ -61,12 +61,6 @@ public class User extends BaseEntity {
 	@JoinColumn(name = "language_id", referencedColumnName = "id") // language_id를 외래 키로 설정
 	private Language language;
 
-	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-	private MedicalHistory medicalHistory;
-
-	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-	private PrivateInformation privateInformation;
-
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Terms> termsList = new ArrayList<>();
 

@@ -28,5 +28,6 @@ public class VisitHistory extends BaseEntity {
 	private Hospital hospital;
 
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@JoinColumn(name = "summary_id")
 	private Summary summary;
 }

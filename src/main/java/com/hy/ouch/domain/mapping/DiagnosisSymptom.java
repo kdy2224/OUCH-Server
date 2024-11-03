@@ -19,12 +19,12 @@ public class DiagnosisSymptom extends BaseEntity {
 	private DiagnosisSymptomPK diagnosisSymptomPk;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@MapsId("selfDiagnosisId")  // HospitalCategoryId의 categoryId와 매핑
-	@JoinColumn(name = "selfDiagnosis_id", nullable = false)
+	@MapsId("selfDiagnosisId")
+	//@JoinColumn(name = "selfDiagnosis_id", nullable = false)
 	private SelfDiagnosis selfDiagnosis;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@MapsId("symptomCategoryId")  // HospitalCategoryId의 hospitalId와 매핑
-	@JoinColumn(name = "symptomCategory_id", nullable = false)
+	@MapsId("symptomCategoryId")
+	//@JoinColumn(name = "symptomCategory_id", nullable = false)
 	private SymptomCategory symptomCategory;
 }

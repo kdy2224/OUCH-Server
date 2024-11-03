@@ -23,6 +23,6 @@ public class VisitHistory extends BaseEntity {
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "hospitaa_id")
+	@JoinColumn(name = "hospital_id")
 	private Hospital hospital;
 }

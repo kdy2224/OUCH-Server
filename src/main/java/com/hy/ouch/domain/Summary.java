@@ -14,7 +14,7 @@ import lombok.*;
 public class Summary extends BaseEntity {
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "visit_id")
+	@JoinColumn(name = "visit_history_id")
 	private VisitHistory visitHistory;
 
 	@Column(columnDefinition = "TEXT")

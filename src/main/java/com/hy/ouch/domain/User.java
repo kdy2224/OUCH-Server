@@ -1,10 +1,13 @@
 package com.hy.ouch.domain;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.hy.ouch.domain.common.BaseEntity;
 import com.hy.ouch.domain.enums.Gender;
 import com.hy.ouch.domain.enums.UserStatus;
+import com.hy.ouch.domain.mapping.VisitHistory;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -53,4 +56,21 @@ public class User extends BaseEntity {
 	private UserStatus status;
 
 	private LocalDate inactiveDate;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Terms> termsList = new ArrayList<>();
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<PushNotification> memberAgreeList = new ArrayList<>();
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Review> reviewList = new ArrayList<>();
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<SelfDiagnosis> selfDiagnosisList = new ArrayList<>();
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<VisitHistory> visitHistoryList = new ArrayList<>();
+
+
 }

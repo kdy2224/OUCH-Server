@@ -1,6 +1,10 @@
 package com.hy.ouch.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hy.ouch.domain.common.BaseEntity;
+import com.hy.ouch.domain.mapping.VisitHistory;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,4 +36,8 @@ public class Review extends BaseEntity {
 
 	@Column(nullable = false, columnDefinition = "TEXT")
 	private String imageUrl;
+
+	@OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
+	private List<VisitHistory> visitHistoryList = new ArrayList<>();
+
 }

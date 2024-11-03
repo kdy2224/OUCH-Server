@@ -1,6 +1,10 @@
 package com.hy.ouch.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hy.ouch.domain.common.BaseEntity;
+import com.hy.ouch.domain.mapping.DiagnosisSymptoms;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,4 +26,8 @@ public class SelfDiagnosis extends BaseEntity {
 
 	@Column(columnDefinition = "TEXT")
 	private String contents;
+
+	@OneToMany(mappedBy = "selfDiagnosis", cascade = CascadeType.ALL)
+	private List<DiagnosisSymptoms> diagnosisSymptomsList = new ArrayList<>();
+
 }

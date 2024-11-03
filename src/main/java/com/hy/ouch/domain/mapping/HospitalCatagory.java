@@ -20,6 +20,6 @@ public class HospitalCatagory extends BaseEntity {
 	private Category category;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "hospitaa_id")
+	@JoinColumn(name = "hospital_id")
 	private Hospital hospital;
 }

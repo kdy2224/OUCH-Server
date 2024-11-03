@@ -1,6 +1,10 @@
 package com.hy.ouch.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hy.ouch.domain.common.BaseEntity;
+import com.hy.ouch.domain.mapping.HospitalCatagory;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,6 +23,9 @@ public class Hospital extends BaseEntity {
 	@Column(nullable = false, length = 50)
 	private String name;
 
-	@Column(nullable = false, 100)
+	@Column(nullable = false, length = 100)
 	private String address;
+
+	@OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL)
+	private List<HospitalCatagory> hospitalCatagoryList = new ArrayList<>();
 }

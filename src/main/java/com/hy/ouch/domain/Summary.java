@@ -13,7 +13,11 @@ import lombok.*;
 @AllArgsConstructor
 public class Summary extends BaseEntity {
 
+	@Id
+	private Long id;
+
 	@OneToOne(fetch = FetchType.LAZY)
+	@MapsId
 	@JoinColumn(name = "visit_history_id")
 	private VisitHistory visitHistory;
 

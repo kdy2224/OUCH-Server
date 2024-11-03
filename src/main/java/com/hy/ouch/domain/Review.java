@@ -37,7 +37,4 @@ public class Review extends BaseEntity {
 	@Column(nullable = false, columnDefinition = "TEXT")
 	private String imageUrl;
 
-	@OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
-	private List<VisitHistory> visitHistoryList = new ArrayList<>();
-
 }

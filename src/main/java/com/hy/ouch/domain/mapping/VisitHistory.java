@@ -1,6 +1,7 @@
 package com.hy.ouch.domain.mapping;
 
 import com.hy.ouch.domain.Hospital;
+import com.hy.ouch.domain.Summary;
 import com.hy.ouch.domain.User;
 import com.hy.ouch.domain.common.BaseEntity;
 
@@ -25,4 +26,7 @@ public class VisitHistory extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "hospital_id")
 	private Hospital hospital;
+
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private Summary summary;
 }

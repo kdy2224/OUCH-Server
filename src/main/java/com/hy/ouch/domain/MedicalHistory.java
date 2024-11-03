@@ -12,8 +12,12 @@ import lombok.*;
 @AllArgsConstructor
 public class MedicalHistory extends BaseEntity {
 
+	@Id
+	private Long id;
+
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@MapsId // User의 id를 MedicalHistory의 기본 키로 매핑
+	@JoinColumn(name = "user_id") //외래 키 이름을 user_id로 설정
 	private User user;
 
 	@Column(nullable = true, columnDefinition = "TEXT")

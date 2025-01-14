@@ -19,5 +19,4 @@ public class SymptomCategory extends BaseEntity {
 	@Column(nullable = false, length = 50)
 	private String name;
 
-
 }

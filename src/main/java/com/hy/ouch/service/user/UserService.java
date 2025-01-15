@@ -6,20 +6,26 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hy.ouch.domain.Language;
 import com.hy.ouch.domain.User;
 import com.hy.ouch.domain.enums.UserStatus;
+import com.hy.ouch.dto.language.request.AllLangsRequest;
+import com.hy.ouch.dto.language.response.UserLangResponse;
 import com.hy.ouch.dto.user.request.UserCreateRequest;
-import com.hy.ouch.dto.user.response.UserInfo;
-import com.hy.ouch.dto.user.response.UserResponse;
+import com.hy.ouch.dto.user.response.AllUsersResponse;
+import com.hy.ouch.dto.user.response.UserInfoResponse;
+import com.hy.ouch.repository.language.LanguageRepository;
 import com.hy.ouch.repository.user.UserRepository;
 
 @Service
 public class UserService {
 
 	private final UserRepository userRepository;
+	private final LanguageRepository languageRepository;
 
-	public UserService(UserRepository userRepository) {
+	public UserService(UserRepository userRepository, LanguageRepository languageRepository) {
 		this.userRepository = userRepository;
+		this.languageRepository = languageRepository;
 	}
 
 	@Transactional
@@ -40,11 +46,12 @@ public class UserService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<UserResponse> getUsers1() {
+	public List<AllUsersResponse> getUsers1() {
 		List<User> users = userRepository.findAll();
 		return users.stream()
-			.map(user -> new UserResponse(user.getAddress(), user.getBirthday(), user.getEmail(), user.getLoginId(),
-				user.getName(), user.getNickname(), user.getPassword(), user.getPhoneNumber(), user.getStatus()))
+			.map(user -> new AllUsersResponse(user.getId(), user.getLoginId(), user.getPassword(),
+				user.getName(), user.getNickname(), user.getPhoneNumber(), user.getBirthday(),
+				user.getEmail(), user.getAddress(), user.getStatus()))
 			.collect(Collectors.toList());
 	}
 
@@ -53,15 +60,15 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
-	@Transactional
-	public UserInfo getUserInfo(Long id) {
+	@Transactional(readOnly = true)
+	public UserInfoResponse getUserInfo(Long id) {
 		User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-		return new UserInfo(user.getLoginId(), user.getName(), user.getNickname(), user.getPhoneNumber(),
+		return new UserInfoResponse(user.getLoginId(), user.getName(), user.getNickname(), user.getPhoneNumber(),
 			user.getBirthday(), user.getEmail(), user.getAddress());
 	}
 
 	@Transactional
-	public void updatenUser(Long id, UserCreateRequest request) {
+	public void updateUser(Long id, UserCreateRequest request) {
 		User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
 		if (request.getLoginId() != null) {
 			user.setLoginId(request.getLoginId());
@@ -95,7 +102,50 @@ public class UserService {
 
 		userRepository.delete(user);
 	}
+
+	@Transactional(readOnly = true)
+	public List<AllLangsRequest> getLanguages() {
+		List<Language> languages = languageRepository.findAll();
+		return languages.stream()
+			.map(language -> new AllLangsRequest(language.getId(), language.getName()))
+			.collect(Collectors.toList());
+	}
+
+	@Transactional
+	public void saveUserLanguage(Long userId, Long languageId) {
+		User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+		Language language = languageRepository.findById(languageId)
+			.orElseThrow(() -> new RuntimeException("Language not found"));
+
+		user.setLanguage(language);
+	}
+
+	@Transactional(readOnly = true)
+	public UserLangResponse getUserLanguage(Long userId) {
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new RuntimeException("User not found"));
+		return new UserLangResponse(user.getLanguage().getId(), user.getLanguage().getName());
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

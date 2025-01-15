@@ -11,7 +11,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserResponse {
+public class AllUsersResponse {
+
+	private Long id;
 
 	private String loginId;
 
@@ -30,17 +32,4 @@ public class UserResponse {
 	private String address;
 
 	private UserStatus status;
-
-	public UserResponse(String address, LocalDate birthday, String email, String loginId, String name, String nickname,
-		String password, String phoneNumber, UserStatus status) {
-		this.address = address;
-		this.birthday = birthday;
-		this.email = email;
-		this.loginId = loginId;
-		this.name = name;
-		this.nickname = nickname;
-		this.password = password;
-		this.phoneNumber = phoneNumber;
-		this.status = status;
-	}
 }

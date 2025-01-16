@@ -1,7 +1,7 @@
 package com.hy.ouch.domain.mapping;
 
 import com.hy.ouch.domain.SelfDiagnosis;
-import com.hy.ouch.domain.SymptomCategory;
+import com.hy.ouch.domain.Symptom;
 import com.hy.ouch.domain.common.BaseEntity;
 import com.hy.ouch.domain.mapping.compositeKey.DiagnosisSymptomPK;
 
@@ -13,7 +13,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class DiagnosisSymptom extends BaseEntity {
+public class SelfSymptom extends BaseEntity {
 
 	@EmbeddedId
 	private DiagnosisSymptomPK diagnosisSymptomPk;
@@ -26,5 +26,5 @@ public class DiagnosisSymptom extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@MapsId("symptomCategoryId")
 	//@JoinColumn(name = "symptomCategory_id", nullable = false)
-	private SymptomCategory symptomCategory;
+	private Symptom symptom;
 }

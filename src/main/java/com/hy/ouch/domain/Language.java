@@ -18,4 +18,6 @@ public class Language extends BaseEntity {
 
 	@Column(nullable = false, length = 30)
 	private String name;
+
+	private String code;
 }

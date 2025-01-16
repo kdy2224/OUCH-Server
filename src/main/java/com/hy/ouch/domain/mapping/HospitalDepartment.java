@@ -1,7 +1,7 @@
 package com.hy.ouch.domain.mapping;
 
 import com.hy.ouch.domain.Hospital;
-import com.hy.ouch.domain.MedicalCategory;
+import com.hy.ouch.domain.Department;
 import com.hy.ouch.domain.common.BaseEntity;
 import com.hy.ouch.domain.mapping.compositeKey.HospitalCategoryPk;
 
@@ -13,7 +13,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class HospitalCategory extends BaseEntity {
+public class HospitalDepartment extends BaseEntity {
 
 	@EmbeddedId
 	private HospitalCategoryPk hospitalCategoryPk;
@@ -21,7 +21,7 @@ public class HospitalCategory extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@MapsId("medicalCategoryId")  // HospitalCategoryId의 categoryId와 매핑
 	//@JoinColumn(name = "medicalCategory_id", nullable = false)
-	private MedicalCategory medicalCategory;
+	private Department department;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@MapsId("hospitalId")  // HospitalCategoryId의 hospitalId와 매핑

@@ -61,6 +61,10 @@ public class User extends BaseEntity {
 	@JoinColumn(name = "language_id", referencedColumnName = "id") // language_id를 외래 키로 설정
 	private Language language;
 
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "nation_id", referencedColumnName = "id") // language_id를 외래 키로 설정
+	private Nation nation;
+
 	// @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	// private List<Terms> termsList = new ArrayList<>();
 	//

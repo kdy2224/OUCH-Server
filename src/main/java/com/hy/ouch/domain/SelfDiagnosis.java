@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hy.ouch.domain.common.BaseEntity;
-import com.hy.ouch.domain.mapping.DiagnosisSymptom;
+import com.hy.ouch.domain.mapping.SelfSymptom;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,6 +28,6 @@ public class SelfDiagnosis extends BaseEntity {
 	private String contents;
 
 	@OneToMany(mappedBy = "selfDiagnosis", cascade = CascadeType.ALL)
-	private List<DiagnosisSymptom> diagnosisSymptomList = new ArrayList<>();
+	private List<SelfSymptom> selfSymptomList = new ArrayList<>();
 
 }

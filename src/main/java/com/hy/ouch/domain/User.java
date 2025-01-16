@@ -61,11 +61,11 @@ public class User extends BaseEntity {
 	@JoinColumn(name = "language_id", referencedColumnName = "id") // language_id를 외래 키로 설정
 	private Language language;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private List<Terms> termsList = new ArrayList<>();
-
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private List<Notification> notificationList = new ArrayList<>();
+	// @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	// private List<Terms> termsList = new ArrayList<>();
+	//
+	// @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	// private List<Notification> notificationList = new ArrayList<>();
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Review> reviewList = new ArrayList<>();

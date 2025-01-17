@@ -2,6 +2,8 @@ package com.hy.ouch.dto.user.response;
 
 import java.time.LocalDate;
 
+import com.hy.ouch.domain.enums.Gender;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,15 +14,21 @@ import lombok.NoArgsConstructor;
 public class UserInfoResponse {
 	private String loginId;
 
+	private String password;
+
 	private String name;
 
 	private String nickname;
 
 	private String phoneNumber;
 
+	private Gender gender;
+
 	private LocalDate birthday;
 
 	private String email;
 
-	private String address;
+	private Long languageId;
+
+	private Long nationId;
 }

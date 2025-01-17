@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hy.ouch.domain.Language;
+import com.hy.ouch.domain.Nation;
 import com.hy.ouch.domain.User;
 import com.hy.ouch.domain.enums.UserStatus;
 import com.hy.ouch.dto.language.request.AllLangsRequest;
@@ -14,6 +15,7 @@ import com.hy.ouch.dto.language.response.UserLangResponse;
 import com.hy.ouch.dto.user.request.UserCreateRequest;
 import com.hy.ouch.dto.user.response.AllUsersResponse;
 import com.hy.ouch.dto.user.response.UserInfoResponse;
+import com.hy.ouch.dto.user.response.UserSignupResponse;
 import com.hy.ouch.repository.language.LanguageRepository;
 import com.hy.ouch.repository.user.UserRepository;
 
@@ -29,20 +31,25 @@ public class UserService {
 	}
 
 	@Transactional
-	public void saveUser(UserCreateRequest request) {
+	public UserSignupResponse saveUser(UserCreateRequest request) {
 		User user = User.builder()
 			.loginId(request.getLoginId())
 			.password(request.getPassword())
 			.name(request.getName())
 			.nickname(request.getNickname())
 			.phoneNumber(request.getPhoneNumber())
+			.gender(request.getGender())
 			.birthday(request.getBirthday())
 			.email(request.getEmail())
+			.language(new Language(request.getLanguageId(), " ", null))
+			.nation(new Nation(request.getNationId(), null))
 			.address(request.getAddress())
 			.status(UserStatus.ACTIVE)
 			.build();
 
 		userRepository.save(user);
+
+		return new UserSignupResponse(user.getId(), user.getCreatedAt());
 	}
 
 	@Transactional(readOnly = true)
@@ -63,8 +70,9 @@ public class UserService {
 	@Transactional(readOnly = true)
 	public UserInfoResponse getUserInfo(Long id) {
 		User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-		return new UserInfoResponse(user.getLoginId(), user.getName(), user.getNickname(), user.getPhoneNumber(),
-			user.getBirthday(), user.getEmail(), user.getAddress());
+		return new UserInfoResponse(user.getLoginId(), user.getPassword(), user.getName(), user.getNickname(),
+			user.getPhoneNumber(), user.getGender(), user.getBirthday(), user.getEmail(), user.getLanguage().getId(),
+			user.getNation().getId());
 	}
 
 	@Transactional
@@ -99,7 +107,6 @@ public class UserService {
 	@Transactional
 	public void deleteUser(Long id) {
 		User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-
 		userRepository.delete(user);
 	}
 
@@ -125,6 +132,13 @@ public class UserService {
 		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new RuntimeException("User not found"));
 		return new UserLangResponse(user.getLanguage().getId(), user.getLanguage().getName());
+	}
+
+	@Transactional
+	public void deactivateUser(Long userId) {
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new RuntimeException("User not found"));
+		user.setStatus(UserStatus.INACTIVE);
 	}
 }
 

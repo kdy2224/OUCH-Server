@@ -19,8 +19,10 @@ import com.hy.ouch.domain.User;
 import com.hy.ouch.dto.MessageResponse;
 import com.hy.ouch.dto.language.request.AllLangsRequest;
 import com.hy.ouch.dto.language.response.UserLangResponse;
+import com.hy.ouch.dto.user.request.MypageUserInfoUpdateRequest;
 import com.hy.ouch.dto.user.request.UserCreateRequest;
 import com.hy.ouch.dto.user.response.AllUsersResponse;
+import com.hy.ouch.dto.user.response.MypageUserInfoResponse;
 import com.hy.ouch.dto.user.response.UserInfoResponse;
 import com.hy.ouch.dto.user.response.UserSignupResponse;
 import com.hy.ouch.service.user.UserService;
@@ -41,29 +43,10 @@ public class UserController {
 		return userService.saveUser(request);
 	}
 
-	//모든 사용자 조회
-	@GetMapping("/users/users")
-	public List<AllUsersResponse> getUsers1() {
-		return userService.getUsers1();
-	}
-
-	//모든 사용자 조회2 (오류..)
-	@GetMapping("/users/getUsers")
-	public List<User> getUsers2() {
-		return userService.getUsers2();
-	}
-
 	//유저 조회(테스트용)
 	@GetMapping("/users/{userId}")
 	public UserInfoResponse getUserInfo(@PathVariable Long userId) {
 		return userService.getUserInfo(userId);
-	}
-
-	//사용자 정보 수정
-	@PutMapping("/users/{id}")
-	public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody UserCreateRequest request) {
-		userService.updateUser(id, request);
-		return ResponseEntity.ok("User updated successfully.");
 	}
 
 	//유저 탈퇴(비활성화)
@@ -86,6 +69,39 @@ public class UserController {
 		header.add(HttpHeaders.CONTENT_TYPE, "application/json");
 
 		return new ResponseEntity<>(body, header, HttpStatus.OK);
+	}
+
+	//마이페이지(내 정보) 조회
+	@GetMapping("/mypage/users/{userId}")
+	public MypageUserInfoResponse getMyInfo(@PathVariable Long userId) {
+		return userService.getMyInfo(userId);
+	}
+
+	//내 정보 수정
+	@PutMapping("/mypage/users/{userId}")
+	public ResponseEntity<?> updateMyInfo(@PathVariable Long userId, @RequestBody MypageUserInfoUpdateRequest request) {
+		System.out.println("userId = " + userId);
+		userService.updateMyInfo(userId, request);
+		return ResponseEntity.ok("User updated successfully.");
+	}
+
+	//모든 사용자 조회
+	@GetMapping("/users/users")
+	public List<AllUsersResponse> getUsers1() {
+		return userService.getUsers1();
+	}
+
+	//모든 사용자 조회 -됐다안됐다
+	@GetMapping("/users/getUsers")
+	public List<User> getUsers2() {
+		return userService.getUsers2();
+	}
+
+	//사용자 정보 수정
+	@PutMapping("/users/{id}")
+	public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody UserCreateRequest request) {
+		userService.updateUser(id, request);
+		return ResponseEntity.ok("User updated successfully.");
 	}
 
 	//언어 목록 조회

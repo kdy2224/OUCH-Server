@@ -12,11 +12,14 @@ import com.hy.ouch.domain.User;
 import com.hy.ouch.domain.enums.UserStatus;
 import com.hy.ouch.dto.language.request.AllLangsRequest;
 import com.hy.ouch.dto.language.response.UserLangResponse;
+import com.hy.ouch.dto.user.request.MypageUserInfoUpdateRequest;
 import com.hy.ouch.dto.user.request.UserCreateRequest;
 import com.hy.ouch.dto.user.response.AllUsersResponse;
+import com.hy.ouch.dto.user.response.MypageUserInfoResponse;
 import com.hy.ouch.dto.user.response.UserInfoResponse;
 import com.hy.ouch.dto.user.response.UserSignupResponse;
 import com.hy.ouch.repository.language.LanguageRepository;
+import com.hy.ouch.repository.nation.NationRepository;
 import com.hy.ouch.repository.user.UserRepository;
 
 @Service
@@ -24,14 +27,24 @@ public class UserService {
 
 	private final UserRepository userRepository;
 	private final LanguageRepository languageRepository;
+	private final NationRepository nationRepository;
 
-	public UserService(UserRepository userRepository, LanguageRepository languageRepository) {
+	public UserService(UserRepository userRepository, LanguageRepository languageRepository,
+		NationRepository nationRepository) {
 		this.userRepository = userRepository;
 		this.languageRepository = languageRepository;
+		this.nationRepository = nationRepository;
 	}
 
 	@Transactional
 	public UserSignupResponse saveUser(UserCreateRequest request) {
+
+		Language wantedLanguage = languageRepository.findById(request.getLanguageId())
+			.orElseThrow(() -> new RuntimeException("Language not found"));
+
+		Nation wantedNation = nationRepository.findById(request.getNationId())
+			.orElseThrow(() -> new RuntimeException("Nation not found"));
+
 		User user = User.builder()
 			.loginId(request.getLoginId())
 			.password(request.getPassword())
@@ -41,8 +54,8 @@ public class UserService {
 			.gender(request.getGender())
 			.birthday(request.getBirthday())
 			.email(request.getEmail())
-			.language(new Language(request.getLanguageId(), " ", null))
-			.nation(new Nation(request.getNationId(), null))
+			.language(wantedLanguage)
+			.nation(wantedNation)
 			.address(request.getAddress())
 			.status(UserStatus.ACTIVE)
 			.build();
@@ -139,6 +152,37 @@ public class UserService {
 		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new RuntimeException("User not found"));
 		user.setStatus(UserStatus.INACTIVE);
+	}
+
+	@Transactional(readOnly = true)
+	public MypageUserInfoResponse getMyInfo(Long userId) {
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new RuntimeException("User not found"));
+		return new MypageUserInfoResponse(user.getNickname(), user.getEmail(), user.getLanguage().getId());
+	}
+
+	@Transactional
+	public void updateMyInfo(Long userId, MypageUserInfoUpdateRequest request) {
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new RuntimeException("User not found"));
+
+		if (request.getNickname() != null) {
+			user.setNickname(request.getNickname());
+		}
+		if (request.getPhoneNumber() != null) {
+			user.setPhoneNumber(request.getPhoneNumber());
+		}
+		if (request.getGender() != null) {
+			user.setGender(request.getGender());
+		}
+		if (request.getEmail() != null) {
+			user.setEmail(request.getEmail());
+		}
+		if (request.getNationId() != null) {
+			Nation wantedNation = nationRepository.findById(request.getNationId())
+				.orElseThrow(() -> new RuntimeException("Nation not found"));
+			user.setNation(wantedNation);
+		}
 	}
 }
 

@@ -1,7 +1,5 @@
 package com.hy.ouch.controller.user;
 
-import java.util.List;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hy.ouch.domain.User;
 import com.hy.ouch.dto.MessageResponse;
 import com.hy.ouch.dto.MessageResponse2;
-import com.hy.ouch.dto.language.request.AllLangsRequest;
-import com.hy.ouch.dto.language.response.UserLangResponse;
 import com.hy.ouch.dto.user.request.MypageUserInfoUpdateRequest;
 import com.hy.ouch.dto.user.request.UserCreateRequest;
-import com.hy.ouch.dto.user.response.AllUsersResponse;
 import com.hy.ouch.dto.user.response.MypageUserInfoResponse;
 import com.hy.ouch.dto.user.response.UserInfoResponse;
 import com.hy.ouch.dto.user.response.UserSignupResponse;
@@ -74,16 +68,16 @@ public class UserController {
 
 	//마이페이지(내 정보) 조회
 	@GetMapping("/mypage/users/{userId}")
-	public MypageUserInfoResponse getMyInfo(@PathVariable Long userId) {
-		return userService.getMyInfo(userId);
+	public MypageUserInfoResponse myPageGetUserInfo(@PathVariable Long userId) {
+		return userService.myPageGetUserInfo(userId);
 	}
 
 	//내 정보 수정
 	@PutMapping("/mypage/users/{userId}")
-	public ResponseEntity<MessageResponse2<String>> updateMyInfo(@PathVariable Long userId,
+	public ResponseEntity<MessageResponse2<String>> myPageUpdateUserInfo(@PathVariable Long userId,
 		@RequestBody MypageUserInfoUpdateRequest request) {
 		// System.out.println("userId = " + userId);
-		userService.updateMyInfo(userId, request);
+		userService.myPageUpdateUserInfo(userId, request);
 		MessageResponse2<String> body = new MessageResponse2<>(
 			true,
 			"COMMON200",
@@ -92,50 +86,7 @@ public class UserController {
 		);
 		return ResponseEntity.ok(body);
 	}
-
-	//////추가///////(혹시 모르니 일단 남겨둘게요.)
-	//모든 사용자 조회
-	@GetMapping("/users/users")
-	public List<AllUsersResponse> getUsers1() {
-		return userService.getUsers1();
-	}
-
-	//모든 사용자 조회 -됐다안됐다
-	@GetMapping("/users/getUsers")
-	public List<User> getUsers2() {
-		return userService.getUsers2();
-	}
-
-	//사용자 정보 수정
-	@PutMapping("/users/{id}")
-	public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody UserCreateRequest request) {
-		userService.updateUser(id, request);
-		return ResponseEntity.ok("User updated successfully.");
-	}
-
-	//언어 목록 조회
-	@GetMapping("/languages")
-	public List<AllLangsRequest> getLanguages() {
-		return userService.getLanguages();
-	}
-
-	//사용자 언어 설정
-	@PutMapping("/users/{userId}/language")
-	public ResponseEntity<String> saveUserLanguage(@PathVariable Long userId, @RequestBody Long languageId) {
-		userService.saveUserLanguage(userId, languageId);
-		return ResponseEntity.ok("User language saved successfully.");
-	}
-
-	//사용자 설정 언어 조회
-	@GetMapping("/users/{userId}/language")
-	public UserLangResponse getUserLanguage(@PathVariable Long userId) {
-		return userService.getUserLanguage(userId);
-	}
 }
-
-//hola
-
-
 
 
 

@@ -22,6 +22,8 @@ import com.hy.ouch.dto.user.response.UserInfoResponse;
 import com.hy.ouch.dto.user.response.UserSignupResponse;
 import com.hy.ouch.service.user.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -72,10 +74,10 @@ public class UserController {
 		return userService.myPageGetUserInfo(userId);
 	}
 
-	//내 정보 수정
+	//내 정보 수정 (사용자로부터 모든 필드의 값을 받아 put 요청 처리)
 	@PutMapping("/mypage/users/{userId}")
 	public ResponseEntity<MessageResponse2<String>> myPageUpdateUserInfo(@PathVariable Long userId,
-		@RequestBody MypageUserInfoUpdateRequest request) {
+		@RequestBody @Valid MypageUserInfoUpdateRequest request) {
 		// System.out.println("userId = " + userId);
 		userService.myPageUpdateUserInfo(userId, request);
 		MessageResponse2<String> body = new MessageResponse2<>(

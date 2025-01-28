@@ -70,7 +70,12 @@ public class UserService {
 	public void deactivateUser(Long userId) {
 		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new RuntimeException("User not found"));
-		user.setStatus(UserStatus.INACTIVE);
+
+		User deactivatedUser = user.toBuilder()
+			.status(UserStatus.INACTIVE)
+			.build();
+
+		userRepository.save(deactivatedUser);
 	}
 
 	@Transactional
@@ -91,23 +96,18 @@ public class UserService {
 		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new RuntimeException("User not found"));
 
-		if (request.getNickname() != null) {
-			user.setNickname(request.getNickname());
-		}
-		if (request.getPhoneNumber() != null) {
-			user.setPhoneNumber(request.getPhoneNumber());
-		}
-		if (request.getGender() != null) {
-			user.setGender(request.getGender());
-		}
-		if (request.getEmail() != null) {
-			user.setEmail(request.getEmail());
-		}
-		if (request.getNationId() != null) {
-			Nation wantedNation = nationRepository.findById(request.getNationId())
-				.orElseThrow(() -> new RuntimeException("Nation not found"));
-			user.setNation(wantedNation);
-		}
+		Nation wantedNation = nationRepository.findById(request.getNationId())
+			.orElseThrow(() -> new RuntimeException("Nation not found"));
+
+		User updatedUser = user.toBuilder()
+			.nickname(request.getNickname())
+			.phoneNumber(request.getPhoneNumber())
+			.gender(request.getGender())
+			.email(request.getEmail())
+			.nation(wantedNation)
+			.build();
+
+		userRepository.save(updatedUser);
 	}
 }
 

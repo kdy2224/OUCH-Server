@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hy.ouch.dto.MessageResponse;
-import com.hy.ouch.dto.MessageResponse2;
+import com.hy.ouch.dto.MessageResponseDetailed;
 import com.hy.ouch.dto.user.request.MypageUserInfoUpdateRequest;
 import com.hy.ouch.dto.user.request.UserCreateRequest;
 import com.hy.ouch.dto.user.response.MypageUserInfoResponse;
@@ -76,11 +76,11 @@ public class UserController {
 
 	//내 정보 수정 (사용자로부터 모든 필드의 값을 받아 put 요청 처리)
 	@PutMapping("/mypage/users/{userId}")
-	public ResponseEntity<MessageResponse2<String>> myPageUpdateUserInfo(@PathVariable Long userId,
+	public ResponseEntity<MessageResponseDetailed<String>> myPageUpdateUserInfo(@PathVariable Long userId,
 		@RequestBody @Valid MypageUserInfoUpdateRequest request) {
 		// System.out.println("userId = " + userId);
 		userService.myPageUpdateUserInfo(userId, request);
-		MessageResponse2<String> body = new MessageResponse2<>(
+		MessageResponseDetailed<String> body = new MessageResponseDetailed<>(
 			true,
 			"COMMON200",
 			"요청이 성공적으로 처리되었습니다.",

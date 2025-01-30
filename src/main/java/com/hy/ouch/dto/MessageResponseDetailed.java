@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class MessageResponse2<T> {
+public class MessageResponseDetailed<T> {
 
 	private boolean success;
 

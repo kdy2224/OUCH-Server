@@ -3,6 +3,7 @@ package com.hy.ouch.service.user;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hy.ouch.converter.UserConverter;
 import com.hy.ouch.domain.Language;
 import com.hy.ouch.domain.Nation;
 import com.hy.ouch.domain.User;
@@ -22,12 +23,14 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final LanguageRepository languageRepository;
 	private final NationRepository nationRepository;
+	private final UserConverter userConverter;
 
 	public UserService(UserRepository userRepository, LanguageRepository languageRepository,
-		NationRepository nationRepository) {
+		NationRepository nationRepository, UserConverter userConverter) {
 		this.userRepository = userRepository;
 		this.languageRepository = languageRepository;
 		this.nationRepository = nationRepository;
+		this.userConverter = userConverter;
 	}
 
 	@Transactional
@@ -55,15 +58,14 @@ public class UserService {
 
 		userRepository.save(user);
 
-		return new UserSignupResponse(user.getId(), user.getCreatedAt());
+		return userConverter.convertToUserSignupResponse(user);
 	}
 
 	@Transactional(readOnly = true)
 	public UserInfoResponse getUserInfo(Long id) {
 		User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-		return new UserInfoResponse(user.getLoginId(), user.getPassword(), user.getName(), user.getNickname(),
-			user.getPhoneNumber(), user.getGender(), user.getBirthday(), user.getEmail(), user.getLanguage().getId(),
-			user.getNation().getId());
+
+		return userConverter.convertToUserInfoResponse(user);
 	}
 
 	@Transactional
@@ -88,7 +90,7 @@ public class UserService {
 	public MypageUserInfoResponse myPageGetUserInfo(Long userId) {
 		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new RuntimeException("User not found"));
-		return new MypageUserInfoResponse(user.getNickname(), user.getEmail(), user.getLanguage().getId());
+		return userConverter.convertToMypageUserInfoResponse(user);
 	}
 
 	@Transactional

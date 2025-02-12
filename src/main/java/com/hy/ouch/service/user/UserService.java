@@ -17,21 +17,16 @@ import com.hy.ouch.repository.language.LanguageRepository;
 import com.hy.ouch.repository.nation.NationRepository;
 import com.hy.ouch.repository.user.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
 	private final UserRepository userRepository;
 	private final LanguageRepository languageRepository;
 	private final NationRepository nationRepository;
 	private final UserConverter userConverter;
-
-	public UserService(UserRepository userRepository, LanguageRepository languageRepository,
-		NationRepository nationRepository, UserConverter userConverter) {
-		this.userRepository = userRepository;
-		this.languageRepository = languageRepository;
-		this.nationRepository = nationRepository;
-		this.userConverter = userConverter;
-	}
 
 	@Transactional
 	public UserSignupResponse saveUser(UserCreateRequest request) {
@@ -58,14 +53,14 @@ public class UserService {
 
 		userRepository.save(user);
 
-		return userConverter.convertToUserSignupResponse(user);
+		return userConverter.user2UserSignupResponse(user);
 	}
 
 	@Transactional(readOnly = true)
 	public UserInfoResponse getUserInfo(Long id) {
 		User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
 
-		return userConverter.convertToUserInfoResponse(user);
+		return userConverter.user2UserInfoResponse(user);
 	}
 
 	@Transactional
@@ -90,7 +85,7 @@ public class UserService {
 	public MypageUserInfoResponse myPageGetUserInfo(Long userId) {
 		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new RuntimeException("User not found"));
-		return userConverter.convertToMypageUserInfoResponse(user);
+		return userConverter.user2MypageUserInfoResponse(user);
 	}
 
 	@Transactional

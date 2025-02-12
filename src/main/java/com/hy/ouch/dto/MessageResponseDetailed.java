@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class MessageResponseDetailed<T> {
 
-	private boolean success;
+	private boolean isSuccess;
 
 	private String code;
 

@@ -1,4 +1,4 @@
-package com.hy.ouch.controller.user;
+package com.hy.ouch.security.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,11 +9,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hy.ouch.apiPayload.ApiResponse;
-import com.hy.ouch.service.security.SignUpService;
-import com.hy.ouch.dto.user.request.SignUpRequest;
+import com.hy.ouch.security.service.SignUpService;
+import com.hy.ouch.security.dto.request.SignUpRequest;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "회원가입 API", description = "회원가입 API입니다.")
 @RestController
 @RequestMapping("/users/signup")
 @RequiredArgsConstructor
@@ -21,6 +24,7 @@ public class SignUpController {
 
 	private final SignUpService signUpService;
 
+	@Operation(summary = "회원가입 API", description = "회원가입 API입니다.")
 	@PostMapping
 	public ResponseEntity<ApiResponse<Void>> signUpPersonal(
 		@RequestBody SignUpRequest signUpRequest) {
@@ -29,17 +33,17 @@ public class SignUpController {
 			.body(ApiResponse.createdWithNoData());
 	}
 
+	@Operation(summary = "아이디 중복 확인 API", description = "아이디 중복 확인 API입니다.")
 	@GetMapping("/duplicate/id")
-	public ResponseEntity<ApiResponse<Void>> checkDuplicateLoginId(@RequestParam("id") String id) {
+	public ResponseEntity<ApiResponse<String>> checkDuplicateLoginId(@RequestParam("id") String id) {
 		signUpService.checkDuplicatedLoginId(id);
-		return ResponseEntity.ok()
-			.body(ApiResponse.successWithNoData());
+		return ResponseEntity.ok(ApiResponse.success("사용 가능한 아이디입니다."));
 	}
 
+	@Operation(summary = "닉네임 중복 확인 API", description = "닉네임 중복 확인 API입니다.")
 	@GetMapping("/duplicate/nickname")
-	public ResponseEntity<ApiResponse<Void>> checkDuplicateNickname(@RequestParam("nickname") String nickname) {
+	public ResponseEntity<ApiResponse<String>> checkDuplicateNickname(@RequestParam("nickname") String nickname) {
 		signUpService.checkDuplicatedNickname(nickname);
-		return ResponseEntity.ok()
-			.body(ApiResponse.successWithNoData());
+		return ResponseEntity.ok(ApiResponse.success("사용 가능한 닉네임입니다."));
 	}
 }

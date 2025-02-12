@@ -8,6 +8,7 @@ import com.hy.ouch.domain.common.BaseEntity;
 import com.hy.ouch.domain.enums.Gender;
 import com.hy.ouch.domain.enums.UserStatus;
 import com.hy.ouch.domain.mapping.VisitHistory;
+import com.hy.ouch.security.authority.OuchAuthority;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -38,32 +39,30 @@ public class User extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false, length = 20)
+	@Column(nullable = false)
 	private String loginId;
 
-	@Column(nullable = false, length = 30)
+	@Column(nullable = false)
 	private String password;
 
-	@Column(nullable = false, length = 30)
+	@Column(nullable = false)
 	private String name;
 
-	@Column(nullable = false, length = 20)
+	@Column(nullable = false)
 	private String nickname;
 
-	@Column(nullable = false, length = 15)
+	@Column(nullable = false)
 	private String phoneNumber;
 
 	@Enumerated(EnumType.STRING)
-	@Column(columnDefinition = "VARCHAR(6)")
 	private Gender gender;
 
 	@Column(nullable = false)
 	private LocalDate birthday;
 
-	@Column(nullable = false, length = 30)
+	@Column(nullable = false)
 	private String email;
 
-	@Column(length = 100)
 	private String address;
 
 	@Enumerated(EnumType.STRING)
@@ -94,4 +93,8 @@ public class User extends BaseEntity {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<VisitHistory> visitHistoryList = new ArrayList<>();
+
+	public OuchAuthority getAuthority() {
+		return OuchAuthority.INDIVIDUAL;
+	}
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hy.ouch.dto.MessageResponse;
+import com.hy.ouch.dto.selfDiagnosis.request.AddSymptomsToDiagnosisRequest;
 import com.hy.ouch.dto.selfDiagnosis.request.DiagnosisCreateRequest;
 import com.hy.ouch.dto.selfDiagnosis.request.DiagnosisUpdateRequest;
 import com.hy.ouch.dto.selfDiagnosis.response.DiagnosisCreateResponse;
@@ -70,5 +71,14 @@ public class SelfDiagnosisController {
 		@RequestBody DiagnosisUpdateRequest request) {
 		selfDiagnosisService.updateDiagnosis(diagnosisId, request);
 		return ResponseEntity.ok(new MessageResponse("Diagnosis has been updated."));
+	}
+
+	//자가진단표에 증상 추가
+	//이미 증상에 있는건 못 추가하게
+	@PostMapping("/{diagnosisId}/add-symptoms")
+	public ResponseEntity<MessageResponse> addSymptomsToSelfDiagnosis(@PathVariable Long diagnosisId,
+		@RequestBody AddSymptomsToDiagnosisRequest request) {
+		selfDiagnosisService.addSymptomsToSelfDiagnosis(diagnosisId, request);
+		return ResponseEntity.ok(new MessageResponse("Symptoms have been added."));
 	}
 }

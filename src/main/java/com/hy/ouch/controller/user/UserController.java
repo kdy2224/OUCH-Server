@@ -31,7 +31,7 @@ public class UserController {
 
 	//회원가입
 	@PostMapping("/users/signup")
-	public UserSignupResponse saveUser(@RequestBody UserCreateRequest request) {
+	public UserSignupResponse saveUser(@RequestBody @Valid UserCreateRequest request) {
 		return userService.saveUser(request);
 	}
 

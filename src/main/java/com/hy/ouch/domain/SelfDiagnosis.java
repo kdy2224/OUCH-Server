@@ -40,7 +40,7 @@ public class SelfDiagnosis extends BaseEntity {
 	@Column(columnDefinition = "TEXT")
 	private String contents;
 
-	@OneToMany(mappedBy = "selfDiagnosis", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "selfDiagnosis", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<SelfSymptom> selfSymptomList = new ArrayList<>();
 
 }

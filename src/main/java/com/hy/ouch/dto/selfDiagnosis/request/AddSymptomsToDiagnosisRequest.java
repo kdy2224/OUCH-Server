@@ -2,6 +2,7 @@ package com.hy.ouch.dto.selfDiagnosis.request;
 
 import java.util.List;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,5 +10,6 @@ import lombok.Setter;
 @Setter
 public class AddSymptomsToDiagnosisRequest {
 
+	@NotNull(message = "Please enter symptoms to add.")
 	private List<String> symptoms;
 }

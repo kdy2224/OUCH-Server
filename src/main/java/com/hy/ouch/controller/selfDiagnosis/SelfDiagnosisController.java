@@ -23,16 +23,14 @@ import com.hy.ouch.dto.selfDiagnosis.response.GetSymptomsOfDiagnosisResponse;
 import com.hy.ouch.service.selfDiagnosis.SelfDiagnosisService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/self-diagnosis")
+@RequiredArgsConstructor
 public class SelfDiagnosisController {
 
 	private final SelfDiagnosisService selfDiagnosisService;
-
-	public SelfDiagnosisController(SelfDiagnosisService selfDiagnosisService) {
-		this.selfDiagnosisService = selfDiagnosisService;
-	}
 
 	//자가진단표 생성
 	@PostMapping
@@ -77,7 +75,7 @@ public class SelfDiagnosisController {
 	//이미 증상에 있는건 못 추가하게
 	@PostMapping("/{diagnosisId}/add-symptoms")
 	public ResponseEntity<MessageResponse> addSymptomsToSelfDiagnosis(@PathVariable Long diagnosisId,
-		@RequestBody AddSymptomsToDiagnosisRequest request) {
+		@RequestBody @Valid AddSymptomsToDiagnosisRequest request) {
 		selfDiagnosisService.addSymptomsToSelfDiagnosis(diagnosisId, request);
 		return ResponseEntity.ok(new MessageResponse("Symptoms have been added."));
 	}

@@ -66,7 +66,7 @@ public class SelfDiagnosisController {
 	//자가진단표 수정
 	@PutMapping("/{diagnosisId}")
 	public ResponseEntity<MessageResponse> updateDiagnosis(@PathVariable Long diagnosisId,
-		@RequestBody DiagnosisUpdateRequest request) {
+		@RequestBody @Valid DiagnosisUpdateRequest request) {
 		selfDiagnosisService.updateDiagnosis(diagnosisId, request);
 		return ResponseEntity.ok(new MessageResponse("Diagnosis has been updated."));
 	}

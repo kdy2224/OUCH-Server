@@ -5,18 +5,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hy.ouch.dto.MessageResponse;
-import com.hy.ouch.dto.user.request.UserCreateRequest;
 import com.hy.ouch.dto.user.response.UserInfoResponse;
-import com.hy.ouch.dto.user.response.UserSignupResponse;
 import com.hy.ouch.service.user.UserService;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -25,12 +20,6 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
 	private final UserService userService;
-
-	//회원가입
-	@PostMapping("/signup")
-	public UserSignupResponse saveUser(@RequestBody @Valid UserCreateRequest request) {
-		return userService.saveUser(request);
-	}
 
 	//유저 조회(테스트용)
 	@GetMapping("/{userId}")

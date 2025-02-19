@@ -1,4 +1,4 @@
-package com.hy.ouch.dto.user.request;
+package com.hy.ouch.dto.mypage.request;
 
 import com.hy.ouch.domain.enums.Gender;
 

@@ -8,9 +8,7 @@ import com.hy.ouch.domain.Language;
 import com.hy.ouch.domain.Nation;
 import com.hy.ouch.domain.User;
 import com.hy.ouch.domain.enums.UserStatus;
-import com.hy.ouch.dto.user.request.MypageUserInfoUpdateRequest;
 import com.hy.ouch.dto.user.request.UserCreateRequest;
-import com.hy.ouch.dto.user.response.MypageUserInfoResponse;
 import com.hy.ouch.dto.user.response.UserInfoResponse;
 import com.hy.ouch.dto.user.response.UserSignupResponse;
 import com.hy.ouch.repository.language.LanguageRepository;
@@ -81,31 +79,6 @@ public class UserService {
 		userRepository.delete(user);
 	}
 
-	@Transactional(readOnly = true)
-	public MypageUserInfoResponse myPageGetUserInfo(Long userId) {
-		User user = userRepository.findById(userId)
-			.orElseThrow(() -> new RuntimeException("User not found"));
-		return userConverter.user2MypageUserInfoResponse(user);
-	}
-
-	@Transactional
-	public void myPageUpdateUserInfo(Long userId, MypageUserInfoUpdateRequest request) {
-		User user = userRepository.findById(userId)
-			.orElseThrow(() -> new RuntimeException("User not found"));
-
-		Nation wantedNation = nationRepository.findById(request.getNationId())
-			.orElseThrow(() -> new RuntimeException("Nation not found"));
-
-		User updatedUser = user.toBuilder()
-			.nickname(request.getNickname())
-			.phoneNumber(request.getPhoneNumber())
-			.gender(request.getGender())
-			.email(request.getEmail())
-			.nation(wantedNation)
-			.build();
-
-		userRepository.save(updatedUser);
-	}
 }
 
 

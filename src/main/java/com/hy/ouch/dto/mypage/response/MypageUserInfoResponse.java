@@ -1,4 +1,4 @@
-package com.hy.ouch.dto.user.response;
+package com.hy.ouch.dto.mypage.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

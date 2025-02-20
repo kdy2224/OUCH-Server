@@ -49,24 +49,23 @@ public class SelfDiagnosisService {
 
 		//dto 로 받은 selfSymptom(리스트)의 각 요소가 Symptom table 에 존재하는지 확인
 		for (String symptom : request.getSelfSymptoms()) { //(단순 문자열로 된) 리스트를 돌면서
-			if (symptomRepository.existsByName(symptom)) { //증상이 Symptom table 에 존재하면
 
-				//Symptom 객체와 Symptom id 찾아두기
-				Symptom foundSymptom = symptomRepository.findByName(symptom)
-					.orElseThrow(() -> new RuntimeException("Symptom not found"));
-				Long symptomId = foundSymptom.getId();
+			Symptom foundSymptom = symptomRepository.findByName(symptom) //증상이 Symptom table 에 존재하면
+				.orElseThrow(() -> new RuntimeException("Symptom not found"));
 
-				//SelfSymptom 객체 생성
-				SelfSymptom symptom1 = SelfSymptom.builder()
-					.selfDiagnosis(selfDiagnosis)
-					.symptom(foundSymptom)
-					.diagnosisSymptomPk(new DiagnosisSymptomPK(selfDiagnosis.getId(),
-						symptomId))
-					.build();
+			//Symptom id 찾아두기
+			Long symptomId = foundSymptom.getId();
 
-				//SelfDiagnosis 의 selfSymptomList 에 해당 증상 추가
-				selfDiagnosis.getSelfSymptomList().add(symptom1);
-			}
+			//SelfSymptom 객체 생성
+			SelfSymptom symptom1 = SelfSymptom.builder()
+				.selfDiagnosis(selfDiagnosis)
+				.symptom(foundSymptom)
+				.diagnosisSymptomPk(new DiagnosisSymptomPK(selfDiagnosis.getId(),
+					symptomId))
+				.build();
+
+			//SelfDiagnosis 의 selfSymptomList 에 해당 증상 추가
+			selfDiagnosis.getSelfSymptomList().add(symptom1);
 		}
 
 		//SelfDiagnosis table 에 저장
@@ -128,23 +127,24 @@ public class SelfDiagnosisService {
 			.build();
 
 		for (String symptom : request.getSelfSymptoms()) { //(단순 문자열로 된) 리스트를 돌면서
-			if (symptomRepository.existsByName(symptom)) { //증상이 Symptom table 에 존재하면
 
-				Symptom foundSymptom = symptomRepository.findByName(symptom)
-					.orElseThrow(() -> new RuntimeException("Symptom not found"));
-				Long symptomId = foundSymptom.getId();
+			Symptom foundSymptom = symptomRepository.findByName(symptom) //증상이 Symptom table 에 존재하면
+				.orElseThrow(() -> new RuntimeException("Symptom not found"));
 
-				//SelfSymptom 객체 생성
-				SelfSymptom symptom1 = SelfSymptom.builder()
-					.selfDiagnosis(updatedDiagnosis)
-					.symptom(foundSymptom)
-					.diagnosisSymptomPk(new DiagnosisSymptomPK(updatedDiagnosis.getId(),
-						symptomId))
-					.build();
+			//Symptom id 찾아두기
+			Long symptomId = foundSymptom.getId();
 
-				//SelfDiagnosis 의 selfSymptomList 에 해당 증상 추가
-				updatedDiagnosis.getSelfSymptomList().add(symptom1);
-			}
+			//SelfSymptom 객체 생성
+			SelfSymptom symptom1 = SelfSymptom.builder()
+				.selfDiagnosis(updatedDiagnosis)
+				.symptom(foundSymptom)
+				.diagnosisSymptomPk(new DiagnosisSymptomPK(updatedDiagnosis.getId(),
+					symptomId))
+				.build();
+
+			//SelfDiagnosis 의 selfSymptomList 에 해당 증상 추가
+			updatedDiagnosis.getSelfSymptomList().add(symptom1);
+
 		}
 
 		selfDiagnosisRepository.save(updatedDiagnosis);
@@ -157,21 +157,21 @@ public class SelfDiagnosisService {
 			.orElseThrow(() -> new RuntimeException("Diagnosis not found"));
 
 		for (String symptom : request.getSymptoms()) {
-			if (symptomRepository.existsByName(symptom)) {
 
-				Symptom foundSymptom = symptomRepository.findByName(symptom)
-					.orElseThrow(() -> new RuntimeException("Symptom not found"));
-				Long symptomId = foundSymptom.getId();
+			Symptom foundSymptom = symptomRepository.findByName(symptom)
+				.orElseThrow(() -> new RuntimeException("Symptom not found"));
 
-				SelfSymptom symptom1 = SelfSymptom.builder()
-					.selfDiagnosis(diagnosis)
-					.symptom(foundSymptom)
-					.diagnosisSymptomPk(new DiagnosisSymptomPK(diagnosis.getId(),
-						symptomId))
-					.build();
+			Long symptomId = foundSymptom.getId();
 
-				diagnosis.getSelfSymptomList().add(symptom1);
-			}
+			SelfSymptom symptom1 = SelfSymptom.builder()
+				.selfDiagnosis(diagnosis)
+				.symptom(foundSymptom)
+				.diagnosisSymptomPk(new DiagnosisSymptomPK(diagnosis.getId(),
+					symptomId))
+				.build();
+
+			diagnosis.getSelfSymptomList().add(symptom1);
+
 		}
 	}
 }

@@ -72,7 +72,6 @@ public class SelfDiagnosisController {
 	}
 
 	//자가진단표에 증상 추가
-	//이미 증상에 있는건 못 추가하게
 	@PostMapping("/{diagnosisId}/add-symptoms")
 	public ResponseEntity<MessageResponse> addSymptomsToSelfDiagnosis(@PathVariable Long diagnosisId,
 		@RequestBody @Valid AddSymptomsToDiagnosisRequest request) {

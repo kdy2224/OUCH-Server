@@ -7,7 +7,7 @@ import com.hy.ouch.converter.UserConverter;
 import com.hy.ouch.domain.Nation;
 import com.hy.ouch.domain.User;
 import com.hy.ouch.dto.mypage.request.MypageUserInfoUpdateRequest;
-import com.hy.ouch.dto.mypage.response.MypageUserInfoResponse;
+import com.hy.ouch.dto.user.response.MypageUserInfoResponse;
 import com.hy.ouch.repository.nation.NationRepository;
 import com.hy.ouch.repository.user.UserRepository;
 

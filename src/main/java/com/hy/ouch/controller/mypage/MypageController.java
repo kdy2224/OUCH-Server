@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hy.ouch.dto.MessageResponse;
 import com.hy.ouch.dto.mypage.request.MypageUserInfoUpdateRequest;
-import com.hy.ouch.dto.mypage.response.MypageUserInfoResponse;
+import com.hy.ouch.dto.user.response.MypageUserInfoResponse;
 import com.hy.ouch.service.mypage.MypageService;
 import com.hy.ouch.service.user.UserService;
 

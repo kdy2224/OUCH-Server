@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
+import com.hy.ouch.apiPayload.code.error.DiagnosisErrorCode;
+import com.hy.ouch.apiPayload.exception.OuchException;
 import com.hy.ouch.converter.SelfDiagnosisConverter;
 import com.hy.ouch.domain.SelfDiagnosis;
 import com.hy.ouch.domain.Symptom;
@@ -42,7 +44,7 @@ public class SelfDiagnosisService {
 		//일단 증상 리스트는 비워둔 채로 SelfDiagnosis 객체 생성
 		SelfDiagnosis selfDiagnosis = SelfDiagnosis.builder()
 			.user(userRepository.findById(request.getUserId())
-				.orElseThrow(() -> new RuntimeException("User not found")))
+				.orElseThrow(() -> new OuchException(DiagnosisErrorCode.USER_NOT_FOUND)))
 			.contents(request.getContents())
 			.selfSymptomList(new ArrayList<>())
 			.build();
@@ -51,7 +53,7 @@ public class SelfDiagnosisService {
 		for (String symptom : request.getSelfSymptoms()) { //(단순 문자열로 된) 리스트를 돌면서
 
 			Symptom foundSymptom = symptomRepository.findByName(symptom) //증상이 Symptom table 에 존재하면
-				.orElseThrow(() -> new RuntimeException("Symptom not found"));
+				.orElseThrow(() -> new OuchException(DiagnosisErrorCode.SYMPTOM_NOT_FOUND));
 
 			//Symptom id 찾아두기
 			Long symptomId = foundSymptom.getId();
@@ -77,7 +79,7 @@ public class SelfDiagnosisService {
 	@Transactional(readOnly = true)
 	public GetDiagnosisResponse getDiagnosis(Long diagnosisId) {
 		SelfDiagnosis diagnosis = selfDiagnosisRepository.findById(diagnosisId)
-			.orElseThrow(() -> new RuntimeException("Diagnosis not found"));
+			.orElseThrow(() -> new OuchException(DiagnosisErrorCode.DIAGNOSIS_NOT_FOUND));
 
 		return selfDiagnosisConverter.diagnosis2GetDiagnosisResponse(diagnosis);
 	}
@@ -85,7 +87,7 @@ public class SelfDiagnosisService {
 	@Transactional(readOnly = true)
 	public List<GetDiagnosisByUserIdResponse> getAllDiagnosisByUserId(Long userId) {
 		User user = userRepository.findById(userId)
-			.orElseThrow(() -> new RuntimeException("User not found"));
+			.orElseThrow(() -> new OuchException(DiagnosisErrorCode.USER_NOT_FOUND));
 
 		List<SelfDiagnosis> diagnosisList = selfDiagnosisRepository.findAllByUserId(userId);
 
@@ -100,7 +102,7 @@ public class SelfDiagnosisService {
 	@Transactional
 	public void deleteDiagnosis(Long diagnosisId) {
 		SelfDiagnosis diagnosis = selfDiagnosisRepository.findById(diagnosisId)
-			.orElseThrow(() -> new RuntimeException("Diagnosis not found"));
+			.orElseThrow(() -> new OuchException(DiagnosisErrorCode.DIAGNOSIS_NOT_FOUND));
 
 		selfDiagnosisRepository.delete(diagnosis);
 	}
@@ -108,7 +110,7 @@ public class SelfDiagnosisService {
 	@Transactional(readOnly = true)
 	public GetSymptomsOfDiagnosisResponse getSymptomsOfDiagnosis(Long diagnosisId) {
 		SelfDiagnosis diagnosis = selfDiagnosisRepository.findById(diagnosisId)
-			.orElseThrow(() -> new RuntimeException("Diagnosis not found"));
+			.orElseThrow(() -> new OuchException(DiagnosisErrorCode.DIAGNOSIS_NOT_FOUND));
 
 		return selfDiagnosisConverter.diagnosis2GetSymptomsOfDiagnosisResponse(diagnosis);
 	}
@@ -117,11 +119,11 @@ public class SelfDiagnosisService {
 	//SelfDiagnosis entity 클래스에 update 메서드를 추가하는 방식으로 하면 더 짧아지는데 그렇게 할까요?
 	public void updateDiagnosis(Long diagnosisId, DiagnosisUpdateRequest request) {
 		SelfDiagnosis diagnosis = selfDiagnosisRepository.findById(diagnosisId)
-			.orElseThrow(() -> new RuntimeException("Diagnosis not found"));
+			.orElseThrow(() -> new OuchException(DiagnosisErrorCode.DIAGNOSIS_NOT_FOUND));
 
 		SelfDiagnosis updatedDiagnosis = diagnosis.toBuilder()
 			.user(userRepository.findById(request.getUserId())
-				.orElseThrow(() -> new RuntimeException("User not found")))
+				.orElseThrow(() -> new OuchException(DiagnosisErrorCode.USER_NOT_FOUND)))
 			.contents(request.getContents())
 			.selfSymptomList(new ArrayList<>())
 			.build();
@@ -129,7 +131,7 @@ public class SelfDiagnosisService {
 		for (String symptom : request.getSelfSymptoms()) { //(단순 문자열로 된) 리스트를 돌면서
 
 			Symptom foundSymptom = symptomRepository.findByName(symptom) //증상이 Symptom table 에 존재하면
-				.orElseThrow(() -> new RuntimeException("Symptom not found"));
+				.orElseThrow(() -> new OuchException(DiagnosisErrorCode.SYMPTOM_NOT_FOUND));
 
 			//Symptom id 찾아두기
 			Long symptomId = foundSymptom.getId();
@@ -154,12 +156,12 @@ public class SelfDiagnosisService {
 	public void addSymptomsToSelfDiagnosis(Long diagnosisId, AddSymptomsToDiagnosisRequest request) {
 
 		SelfDiagnosis diagnosis = selfDiagnosisRepository.findById(diagnosisId)
-			.orElseThrow(() -> new RuntimeException("Diagnosis not found"));
+			.orElseThrow(() -> new OuchException(DiagnosisErrorCode.DIAGNOSIS_NOT_FOUND));
 
 		for (String symptom : request.getSymptoms()) {
 
 			Symptom foundSymptom = symptomRepository.findByName(symptom)
-				.orElseThrow(() -> new RuntimeException("Symptom not found"));
+				.orElseThrow(() -> new OuchException(DiagnosisErrorCode.SYMPTOM_NOT_FOUND));
 
 			Long symptomId = foundSymptom.getId();
 

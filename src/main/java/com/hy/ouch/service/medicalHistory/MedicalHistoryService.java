@@ -29,6 +29,7 @@ public class MedicalHistoryService {
 	private final MedicalHistoryConverter medicalHistoryConverter;
 	private final MedicalHistoryRepository medicalHistoryRepository;
 
+	//건강상태 생성
 	@Transactional
 	public MedicalHistoryCreateResponse createMedicalHistory(MedicalHistoryCreateRequest request, Long userId) {
 		MedicalHistory medicalHistory = MedicalHistory.builder()
@@ -46,6 +47,7 @@ public class MedicalHistoryService {
 		return medicalHistoryConverter.medicalHistory2MedicalHistoryResponse(medicalHistory, userId);
 	}
 
+	//특정 건강상태 조회
 	@Transactional
 	public GetMedicalHistoryResponse getMedicalHistory(Long userId, Long medicalHistoryId) {
 		MedicalHistory medicalHistory = medicalHistoryRepository.findById(medicalHistoryId)
@@ -54,12 +56,14 @@ public class MedicalHistoryService {
 		return medicalHistoryConverter.medicalHistory2GetMedicalHistoryResponse(medicalHistory);
 	}
 
+	//특정 사용자의 모든 건강상태 조회
 	@Transactional
 	public GetUsersAllMedicalHistoryResponse getUsersAllMedicalHistory(Long userId) {
 		List<MedicalHistory> medicalHistory = medicalHistoryRepository.findAllByUserId(userId);
 		return medicalHistoryConverter.medicalHistory2GetUserMedicalHistoryResponse(userId, medicalHistory);
 	}
 
+	//특정 건강상태 수정
 	@Transactional
 	public MedicalHistoryUpdateResponse updateMedicalHistory(@Valid MedicalHistoryUpdateRequest request, Long userId,
 		Long medicalHistoryId) {
@@ -81,6 +85,7 @@ public class MedicalHistoryService {
 		return medicalHistoryConverter.medicalHistory2MedicalHistoryUpdateResponse(updatedMedicalHistory, userId);
 	}
 
+	//특정 건강상태 삭제
 	@Transactional
 	public void deleteMedicalHistory(Long userId, Long medicalHistoryId) {
 		MedicalHistory medicalHistory = medicalHistoryRepository.findById(medicalHistoryId)

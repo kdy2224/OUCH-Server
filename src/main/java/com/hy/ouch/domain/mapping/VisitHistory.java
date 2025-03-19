@@ -24,8 +24,8 @@ import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 @Builder
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class VisitHistory extends BaseEntity {

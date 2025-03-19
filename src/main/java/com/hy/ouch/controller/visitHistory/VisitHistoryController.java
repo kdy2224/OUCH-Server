@@ -20,6 +20,7 @@ public class VisitHistoryController {
 
 	private final VisitHistoryService visitHistoryService;
 
+	// 의료 기록 생성
 	@PostMapping("/{userId}")
 	public VisitHistoryCreateResponse createVisitHistory(@RequestBody @Valid VisitHistoryCreateRequest request,
 		@PathVariable Long userId) {

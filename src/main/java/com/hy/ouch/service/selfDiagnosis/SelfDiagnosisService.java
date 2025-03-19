@@ -117,12 +117,12 @@ public class SelfDiagnosisService {
 
 	@Transactional //setter 를 사용하지 않고 toBuilder 를 사용하여 업데이트(조금 깁니다..)
 	//SelfDiagnosis entity 클래스에 update 메서드를 추가하는 방식으로 하면 더 짧아지는데 그렇게 할까요?
-	public void updateDiagnosis(Long diagnosisId, DiagnosisUpdateRequest request) {
+	public void updateDiagnosis(Long diagnosisId, Long userId, DiagnosisUpdateRequest request) {
 		SelfDiagnosis diagnosis = selfDiagnosisRepository.findById(diagnosisId)
 			.orElseThrow(() -> new OuchException(DiagnosisErrorCode.DIAGNOSIS_NOT_FOUND));
 
 		SelfDiagnosis updatedDiagnosis = diagnosis.toBuilder()
-			.user(userRepository.findById(request.getUserId())
+			.user(userRepository.findById(userId)
 				.orElseThrow(() -> new OuchException(DiagnosisErrorCode.USER_NOT_FOUND)))
 			.contents(request.getContents())
 			.selfSymptomList(new ArrayList<>())

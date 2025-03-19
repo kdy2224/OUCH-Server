@@ -7,6 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class DateAndDisease {
 
+	private Long id;
 	private String date;
 	private String disease;
 }

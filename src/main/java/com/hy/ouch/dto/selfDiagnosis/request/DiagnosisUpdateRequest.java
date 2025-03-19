@@ -11,9 +11,6 @@ import lombok.Setter;
 @Setter
 public class DiagnosisUpdateRequest {
 
-	@NotNull(message = "User Id is required.")
-	private Long userId;
-
 	@NotBlank(message = "Contents are required.")
 	private String contents;
 

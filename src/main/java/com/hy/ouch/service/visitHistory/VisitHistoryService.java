@@ -3,8 +3,7 @@ package com.hy.ouch.service.visitHistory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hy.ouch.apiPayload.code.error.VisitHistoryErrorCode;
-import com.hy.ouch.apiPayload.exception.OuchException;
+import com.hy.ouch.apiPayload.exception.UserNotFoundException;
 import com.hy.ouch.converter.VisitHistoryConverter;
 import com.hy.ouch.domain.Summary;
 import com.hy.ouch.domain.mapping.VisitHistory;
@@ -32,7 +31,7 @@ public class VisitHistoryService {
 
 		VisitHistory visitHistory = VisitHistory.builder()
 			.user(userRepository.findById(userId)
-				.orElseThrow(() -> new OuchException(VisitHistoryErrorCode.USER_NOT_FOUND)))
+				.orElseThrow(() -> new UserNotFoundException("User with ID " + userId + " not found")))
 			.visitDate(request.getVisitDate())
 			.hospital(hospitalRepository.findByName(request.getVisitingHospital()))
 			.department(departmentRepository.findByName(request.getMedicalSubject()))
@@ -46,7 +45,7 @@ public class VisitHistoryService {
 			.build();
 
 		visitHistory.setSummary(summary);
-		
+
 		visitHistoryRepository.save(visitHistory);
 
 		return visitHistoryConverter.visitHistory2VisitHistoryResponse(visitHistory);

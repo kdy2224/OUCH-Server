@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+@AllArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
-public class MedicalHistoryCreateResponse {
+public class GetMedicalHistoryResponse {
+
 	private Long id;
-	private Long userId;
 	private String disease;
 	private String allergy;
 	private Long bloodPressure;

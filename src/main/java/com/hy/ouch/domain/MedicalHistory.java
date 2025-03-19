@@ -4,12 +4,15 @@ import com.hy.ouch.domain.common.BaseEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,17 +21,18 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class MedicalHistory extends BaseEntity {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	@MapsId // User의 id를 MedicalHistory의 기본 키로 매핑
-	@JoinColumn(name = "user_id") //외래 키 이름을 user_id로 설정
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	// @JoinColumn(name = "user_id") //외래 키 이름을 user_id로 설정
+	@JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_medical_history_user", value = ConstraintMode.CONSTRAINT, foreignKeyDefinition = "ON DELETE CASCADE"))
 	private User user;
 
 	@Column(nullable = true, columnDefinition = "TEXT")

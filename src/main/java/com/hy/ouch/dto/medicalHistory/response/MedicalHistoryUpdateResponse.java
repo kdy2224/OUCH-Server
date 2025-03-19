@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class MedicalHistoryCreateResponse {
+public class MedicalHistoryUpdateResponse {
 	private Long id;
 	private Long userId;
 	private String disease;

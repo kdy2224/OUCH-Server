@@ -1,5 +1,7 @@
 package com.hy.ouch.service.visitHistory;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -84,7 +86,13 @@ public class VisitHistoryService {
 		visitHistory.setSummary(summary);
 		visitHistoryRepository.save(visitHistory); // VisitHistory 다시 저장하여 Summary 연관 관계 반영
 
-		return visitHistoryConverter.visitHistory2VisitHistoryResponse(visitHistory);
+		return visitHistoryConverter.visitHistory2GetUsersAllVisitHistoryResponse(visitHistory);
 	}
 
+	//특정 사용자의 모든 의료기록 조회
+	@Transactional
+	public VisitHistoryCreateResponse getUsersAllVisitHistory(Long userId) {
+		List<VisitHistory> visitHistory = visitHistoryRepository.findAllByUserId(userId);
+		return visitHistoryConverter.visitHistory2GetUsersAllVisitHistoryResponse(visitHistory);
+	}
 }

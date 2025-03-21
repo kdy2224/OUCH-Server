@@ -11,8 +11,8 @@ import com.hy.ouch.converter.MedicalHistoryConverter;
 import com.hy.ouch.domain.MedicalHistory;
 import com.hy.ouch.dto.medicalHistory.request.MedicalHistoryCreateRequest;
 import com.hy.ouch.dto.medicalHistory.request.MedicalHistoryUpdateRequest;
+import com.hy.ouch.dto.medicalHistory.response.DateAndDisease;
 import com.hy.ouch.dto.medicalHistory.response.GetMedicalHistoryResponse;
-import com.hy.ouch.dto.medicalHistory.response.GetUsersAllMedicalHistoryResponse;
 import com.hy.ouch.dto.medicalHistory.response.MedicalHistoryCreateResponse;
 import com.hy.ouch.repository.medicalHistory.MedicalHistoryRepository;
 import com.hy.ouch.repository.user.UserRepository;
@@ -56,7 +56,7 @@ public class MedicalHistoryService {
 
 	//특정 사용자의 모든 건강상태 조회
 	@Transactional
-	public GetUsersAllMedicalHistoryResponse getUsersAllMedicalHistory(Long userId) {
+	public List<DateAndDisease> getUsersAllMedicalHistory(Long userId) {
 		List<MedicalHistory> medicalHistory = medicalHistoryRepository.findAllByUserId(userId);
 		return medicalHistoryConverter.medicalHistory2GetUsersAllMedicalHistoryResponse(medicalHistory);
 	}

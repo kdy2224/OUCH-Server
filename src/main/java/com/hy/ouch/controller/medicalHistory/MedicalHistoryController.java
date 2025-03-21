@@ -1,5 +1,7 @@
 package com.hy.ouch.controller.medicalHistory;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hy.ouch.dto.MessageResponse;
 import com.hy.ouch.dto.medicalHistory.request.MedicalHistoryCreateRequest;
 import com.hy.ouch.dto.medicalHistory.request.MedicalHistoryUpdateRequest;
+import com.hy.ouch.dto.medicalHistory.response.DateAndDisease;
 import com.hy.ouch.dto.medicalHistory.response.GetMedicalHistoryResponse;
-import com.hy.ouch.dto.medicalHistory.response.GetUsersAllMedicalHistoryResponse;
 import com.hy.ouch.dto.medicalHistory.response.MedicalHistoryCreateResponse;
 import com.hy.ouch.service.medicalHistory.MedicalHistoryService;
 
@@ -43,7 +45,7 @@ public class MedicalHistoryController {
 
 	//특정 사용자의 모든 건강상태 조회
 	@GetMapping("/{userId}")
-	public GetUsersAllMedicalHistoryResponse getUsersAllMedicalHistory(@PathVariable Long userId) {
+	public List<DateAndDisease> getUsersAllMedicalHistory(@PathVariable Long userId) {
 		return medicalHistoryService.getUsersAllMedicalHistory(userId);
 	}
 

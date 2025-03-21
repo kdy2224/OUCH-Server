@@ -9,7 +9,7 @@ import lombok.Getter;
 @Getter
 public class GetUsersAllMedicalHistoryResponse {
 
-	private Long userId;
+	// private Long userId;
 	private List<DateAndDisease> list;
 
 }

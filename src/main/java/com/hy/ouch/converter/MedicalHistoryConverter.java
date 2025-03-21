@@ -22,8 +22,8 @@ public class MedicalHistoryConverter {
 			medicalHistory.getBloodPressure(), medicalHistory.getBloodSugar(), medicalHistory.getMedicineHistory());
 	}
 
-	public GetUsersAllMedicalHistoryResponse medicalHistory2GetUserMedicalHistoryResponse(
-		long userId, List<MedicalHistory> medicalHistory) {
+	public GetUsersAllMedicalHistoryResponse medicalHistory2GetUsersAllMedicalHistoryResponse(
+		List<MedicalHistory> medicalHistory) {
 
 		List<DateAndDisease> list = new ArrayList<>();
 
@@ -31,7 +31,7 @@ public class MedicalHistoryConverter {
 			list.add(new DateAndDisease(history.getId(), history.getUpdatedAt().toString(), history.getDisease()));
 		}
 
-		return new GetUsersAllMedicalHistoryResponse(userId, list);
+		return new GetUsersAllMedicalHistoryResponse(list);
 	}
 
 	public GetMedicalHistoryResponse medicalHistory2GetMedicalHistoryResponse(MedicalHistory medicalHistory) {

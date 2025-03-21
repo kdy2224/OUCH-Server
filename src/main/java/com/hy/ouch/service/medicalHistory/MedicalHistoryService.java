@@ -14,11 +14,9 @@ import com.hy.ouch.dto.medicalHistory.request.MedicalHistoryUpdateRequest;
 import com.hy.ouch.dto.medicalHistory.response.GetMedicalHistoryResponse;
 import com.hy.ouch.dto.medicalHistory.response.GetUsersAllMedicalHistoryResponse;
 import com.hy.ouch.dto.medicalHistory.response.MedicalHistoryCreateResponse;
-import com.hy.ouch.dto.medicalHistory.response.MedicalHistoryUpdateResponse;
 import com.hy.ouch.repository.medicalHistory.MedicalHistoryRepository;
 import com.hy.ouch.repository.user.UserRepository;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -49,7 +47,7 @@ public class MedicalHistoryService {
 
 	//특정 건강상태 조회
 	@Transactional
-	public GetMedicalHistoryResponse getMedicalHistory(Long userId, Long medicalHistoryId) {
+	public GetMedicalHistoryResponse getMedicalHistory(Long medicalHistoryId) {
 		MedicalHistory medicalHistory = medicalHistoryRepository.findById(medicalHistoryId)
 			.orElseThrow(
 				() -> new MedicalHistoryNotFoundException("MedicalHistory with ID " + medicalHistoryId + " not found"));
@@ -60,14 +58,13 @@ public class MedicalHistoryService {
 	@Transactional
 	public GetUsersAllMedicalHistoryResponse getUsersAllMedicalHistory(Long userId) {
 		List<MedicalHistory> medicalHistory = medicalHistoryRepository.findAllByUserId(userId);
-		return medicalHistoryConverter.medicalHistory2GetUserMedicalHistoryResponse(userId, medicalHistory);
+		return medicalHistoryConverter.medicalHistory2GetUsersAllMedicalHistoryResponse(medicalHistory);
 	}
 
 	//특정 건강상태 수정
 	@Transactional
-	public MedicalHistoryUpdateResponse updateMedicalHistory(@Valid MedicalHistoryUpdateRequest request, Long userId,
+	public void updateMedicalHistory(MedicalHistoryUpdateRequest request,
 		Long medicalHistoryId) {
-
 		MedicalHistory medicalHistory = medicalHistoryRepository.findById(medicalHistoryId)
 			.orElseThrow(
 				() -> new MedicalHistoryNotFoundException("MedicalHistory with ID " + medicalHistoryId + " not found"));
@@ -81,13 +78,11 @@ public class MedicalHistoryService {
 			.build();
 
 		medicalHistoryRepository.save(updatedMedicalHistory);
-
-		return medicalHistoryConverter.medicalHistory2MedicalHistoryUpdateResponse(updatedMedicalHistory, userId);
 	}
 
 	//특정 건강상태 삭제
 	@Transactional
-	public void deleteMedicalHistory(Long userId, Long medicalHistoryId) {
+	public void deleteMedicalHistory(Long medicalHistoryId) {
 		MedicalHistory medicalHistory = medicalHistoryRepository.findById(medicalHistoryId)
 			.orElseThrow(
 				() -> new MedicalHistoryNotFoundException("MedicalHistory with ID " + medicalHistoryId + " not found"));

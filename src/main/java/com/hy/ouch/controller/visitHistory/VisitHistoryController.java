@@ -1,5 +1,6 @@
 package com.hy.ouch.controller.visitHistory;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,10 +21,17 @@ public class VisitHistoryController {
 
 	private final VisitHistoryService visitHistoryService;
 
-	// 의료 기록 생성
+	// 의료기록 생성
 	@PostMapping("/{userId}")
 	public VisitHistoryCreateResponse createVisitHistory(@RequestBody @Valid VisitHistoryCreateRequest request,
 		@PathVariable Long userId) {
 		return visitHistoryService.createVisitHistory(request, userId);
 	}
+
+	// 모든 의료기록 조회 (의료기록 메인 페이지용)
+	@GetMapping("/{userId}")
+	public VisitHistoryCreateResponse getUsersAllVisitHistory(@PathVariable Long userId) {
+		return visitHistoryService.getUsersAllVisitHistory(userId);
+	}
+
 }

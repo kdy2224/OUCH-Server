@@ -54,4 +54,6 @@ public class VisitHistory extends BaseEntity {
 	@JoinColumn(name = "summary_id")
 	private Summary summary;
 
+	//here
+
 }

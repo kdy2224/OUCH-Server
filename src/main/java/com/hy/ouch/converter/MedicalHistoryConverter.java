@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import com.hy.ouch.domain.MedicalHistory;
 import com.hy.ouch.dto.medicalHistory.response.DateAndDisease;
 import com.hy.ouch.dto.medicalHistory.response.GetMedicalHistoryResponse;
-import com.hy.ouch.dto.medicalHistory.response.GetUsersAllMedicalHistoryResponse;
 import com.hy.ouch.dto.medicalHistory.response.MedicalHistoryCreateResponse;
 import com.hy.ouch.dto.medicalHistory.response.MedicalHistoryUpdateResponse;
 
@@ -22,7 +21,7 @@ public class MedicalHistoryConverter {
 			medicalHistory.getBloodPressure(), medicalHistory.getBloodSugar(), medicalHistory.getMedicineHistory());
 	}
 
-	public GetUsersAllMedicalHistoryResponse medicalHistory2GetUsersAllMedicalHistoryResponse(
+	public List<DateAndDisease> medicalHistory2GetUsersAllMedicalHistoryResponse(
 		List<MedicalHistory> medicalHistory) {
 
 		List<DateAndDisease> list = new ArrayList<>();
@@ -31,7 +30,7 @@ public class MedicalHistoryConverter {
 			list.add(new DateAndDisease(history.getId(), history.getUpdatedAt().toString(), history.getDisease()));
 		}
 
-		return new GetUsersAllMedicalHistoryResponse(list);
+		return list;
 	}
 
 	public GetMedicalHistoryResponse medicalHistory2GetMedicalHistoryResponse(MedicalHistory medicalHistory) {

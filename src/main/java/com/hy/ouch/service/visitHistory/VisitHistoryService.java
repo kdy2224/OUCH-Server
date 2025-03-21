@@ -6,10 +6,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hy.ouch.apiPayload.exception.UserNotFoundException;
+import com.hy.ouch.apiPayload.exception.VisitHistoryNotFoundException;
 import com.hy.ouch.converter.VisitHistoryConverter;
 import com.hy.ouch.domain.Summary;
 import com.hy.ouch.domain.mapping.VisitHistory;
 import com.hy.ouch.dto.visitHistory.request.VisitHistoryCreateRequest;
+import com.hy.ouch.dto.visitHistory.response.DateAndHospital;
 import com.hy.ouch.dto.visitHistory.response.VisitHistoryCreateResponse;
 import com.hy.ouch.repository.department.DepartmentRepository;
 import com.hy.ouch.repository.hospital.HospitalRepository;
@@ -86,13 +88,23 @@ public class VisitHistoryService {
 		visitHistory.setSummary(summary);
 		visitHistoryRepository.save(visitHistory); // VisitHistory 다시 저장하여 Summary 연관 관계 반영
 
-		return visitHistoryConverter.visitHistory2GetUsersAllVisitHistoryResponse(visitHistory);
+		return visitHistoryConverter.visitHistory2VisitHistoryCreateResponse(visitHistory);
 	}
 
 	//특정 사용자의 모든 의료기록 조회
 	@Transactional
-	public VisitHistoryCreateResponse getUsersAllVisitHistory(Long userId) {
+	public List<DateAndHospital> getUsersAllVisitHistory(Long userId) {
 		List<VisitHistory> visitHistory = visitHistoryRepository.findAllByUserId(userId);
 		return visitHistoryConverter.visitHistory2GetUsersAllVisitHistoryResponse(visitHistory);
+	}
+
+	//특정 의료기록 삭제
+	@Transactional
+	public void deleteVisitHistory(Long visitHistoryId) {
+		VisitHistory visitHistory = visitHistoryRepository.findById(visitHistoryId)
+			.orElseThrow(
+				() -> new VisitHistoryNotFoundException("VisitHistory with ID " + visitHistoryId + " not found"));
+
+		visitHistoryRepository.delete(visitHistory);
 	}
 }

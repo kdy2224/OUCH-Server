@@ -45,12 +45,15 @@ public class SelfDiagnosisService {
 		SelfDiagnosis selfDiagnosis = SelfDiagnosis.builder()
 			.user(userRepository.findById(request.getUserId())
 				.orElseThrow(() -> new OuchException(DiagnosisErrorCode.USER_NOT_FOUND)))
-			.contents(request.getContents())
+			.visitType(request.getVisitType())
 			.selfSymptomList(new ArrayList<>())
+			.duration(request.getDuration())
+			.painSeverity(request.getPainSeverity())
+			.additionalNote(request.getAdditionalNote())
 			.build();
 
 		//dto 로 받은 selfSymptom(리스트)의 각 요소가 Symptom table 에 존재하는지 확인
-		for (String symptom : request.getSelfSymptoms()) { //(단순 문자열로 된) 리스트를 돌면서
+		for (String symptom : request.getSymptoms()) { //(단순 문자열로 된) 리스트를 돌면서
 
 			Symptom foundSymptom = symptomRepository.findByName(symptom) //증상이 Symptom table 에 존재하면
 				.orElseThrow(() -> new OuchException(DiagnosisErrorCode.SYMPTOM_NOT_FOUND));
@@ -124,11 +127,15 @@ public class SelfDiagnosisService {
 		SelfDiagnosis updatedDiagnosis = diagnosis.toBuilder()
 			.user(userRepository.findById(userId)
 				.orElseThrow(() -> new OuchException(DiagnosisErrorCode.USER_NOT_FOUND)))
-			.contents(request.getContents())
+			.visitType(request.getVisitType())
 			.selfSymptomList(new ArrayList<>())
+			.duration(request.getDuration())
+			.painSeverity(request.getPainSeverity())
+			.additionalNote(request.getAdditionalNote())
+			.createdAt(diagnosis.getCreatedAt())
 			.build();
 
-		for (String symptom : request.getSelfSymptoms()) { //(단순 문자열로 된) 리스트를 돌면서
+		for (String symptom : request.getSymptoms()) { //(단순 문자열로 된) 리스트를 돌면서
 
 			Symptom foundSymptom = symptomRepository.findByName(symptom) //증상이 Symptom table 에 존재하면
 				.orElseThrow(() -> new OuchException(DiagnosisErrorCode.SYMPTOM_NOT_FOUND));

@@ -12,13 +12,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class GetDiagnosisByUserIdResponse {
+public class DiagnosisCreateResponseDetailed {
 
-	private Long diagnosisId;
+	private Long id;
+	private Long userId;
 	private VisitType visitType;
 	private List<String> symptoms;
 	private SymptomDuration duration;
 	private Integer painSeverity;
 	private String additionalNote;
 	private String createdAt;
+
 }

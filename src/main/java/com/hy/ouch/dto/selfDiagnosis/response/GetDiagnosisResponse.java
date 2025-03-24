@@ -2,6 +2,9 @@ package com.hy.ouch.dto.selfDiagnosis.response;
 
 import java.util.List;
 
+import com.hy.ouch.domain.enums.SymptomDuration;
+import com.hy.ouch.domain.enums.VisitType;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +15,10 @@ import lombok.Setter;
 public class GetDiagnosisResponse {
 
 	private Long userId;
-	private String contents;
-	private List<String> selfSymptoms;
+	private VisitType visitType;
+	private List<String> symptoms;
+	private SymptomDuration duration;
+	private Integer painSeverity;
+	private String additionalNote;
+	private String createdAt;
 }

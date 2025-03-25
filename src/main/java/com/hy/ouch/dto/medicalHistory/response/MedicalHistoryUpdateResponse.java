@@ -9,7 +9,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MedicalHistoryUpdateResponse {
 	private Long id;
-	private Long userId;
 	private String disease;
 	private String allergy;
 	private Long bloodPressure;

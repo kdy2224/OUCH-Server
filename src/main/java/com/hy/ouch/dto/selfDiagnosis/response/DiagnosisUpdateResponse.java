@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class DiagnosisCreateResponseDetailed {
+public class DiagnosisUpdateResponse {
 
 	private Long id;
 	private VisitType visitType;
@@ -21,5 +21,4 @@ public class DiagnosisCreateResponseDetailed {
 	private Integer painSeverity;
 	private String additionalNote;
 	private String createdAt;
-
 }

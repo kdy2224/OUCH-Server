@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hy.ouch.apiPayload.exception.MedicalHistoryNotFoundException;
-import com.hy.ouch.apiPayload.exception.UserNotFoundException;
+import com.hy.ouch.apiPayload.code.error.MedicalHistoryErrorCode;
+import com.hy.ouch.apiPayload.exception.OuchException;
 import com.hy.ouch.converter.MedicalHistoryConverter;
 import com.hy.ouch.domain.MedicalHistory;
 import com.hy.ouch.dto.medicalHistory.request.MedicalHistoryCreateRequest;
@@ -14,6 +14,7 @@ import com.hy.ouch.dto.medicalHistory.request.MedicalHistoryUpdateRequest;
 import com.hy.ouch.dto.medicalHistory.response.DateAndDisease;
 import com.hy.ouch.dto.medicalHistory.response.GetMedicalHistoryResponse;
 import com.hy.ouch.dto.medicalHistory.response.MedicalHistoryCreateResponse;
+import com.hy.ouch.dto.medicalHistory.response.MedicalHistoryUpdateResponse;
 import com.hy.ouch.repository.medicalHistory.MedicalHistoryRepository;
 import com.hy.ouch.repository.user.UserRepository;
 
@@ -32,7 +33,7 @@ public class MedicalHistoryService {
 	public MedicalHistoryCreateResponse createMedicalHistory(MedicalHistoryCreateRequest request, Long userId) {
 		MedicalHistory medicalHistory = MedicalHistory.builder()
 			.user(userRepository.findById(userId)
-				.orElseThrow(() -> new UserNotFoundException("User with ID " + userId + " not found")))
+				.orElseThrow(() -> new OuchException(MedicalHistoryErrorCode.USER_NOT_FOUND)))
 			.disease(request.getDisease())
 			.allergy(request.getAllergy())
 			.bloodPressure(request.getBloodPressure())
@@ -49,8 +50,7 @@ public class MedicalHistoryService {
 	@Transactional
 	public GetMedicalHistoryResponse getMedicalHistory(Long medicalHistoryId) {
 		MedicalHistory medicalHistory = medicalHistoryRepository.findById(medicalHistoryId)
-			.orElseThrow(
-				() -> new MedicalHistoryNotFoundException("MedicalHistory with ID " + medicalHistoryId + " not found"));
+			.orElseThrow(() -> new OuchException(MedicalHistoryErrorCode.MEDICAL_HISTORY_NOT_FOUND));
 		return medicalHistoryConverter.medicalHistory2GetMedicalHistoryResponse(medicalHistory);
 	}
 
@@ -63,11 +63,10 @@ public class MedicalHistoryService {
 
 	//특정 건강상태 수정
 	@Transactional
-	public void updateMedicalHistory(MedicalHistoryUpdateRequest request,
+	public MedicalHistoryUpdateResponse updateMedicalHistory(MedicalHistoryUpdateRequest request,
 		Long medicalHistoryId) {
 		MedicalHistory medicalHistory = medicalHistoryRepository.findById(medicalHistoryId)
-			.orElseThrow(
-				() -> new MedicalHistoryNotFoundException("MedicalHistory with ID " + medicalHistoryId + " not found"));
+			.orElseThrow(() -> new OuchException(MedicalHistoryErrorCode.MEDICAL_HISTORY_NOT_FOUND));
 
 		MedicalHistory updatedMedicalHistory = medicalHistory.toBuilder()
 			.disease(request.getDisease())
@@ -78,14 +77,15 @@ public class MedicalHistoryService {
 			.build();
 
 		medicalHistoryRepository.save(updatedMedicalHistory);
+
+		return medicalHistoryConverter.medicalHistory2MedicalHistoryUpdateResponse(updatedMedicalHistory);
 	}
 
 	//특정 건강상태 삭제
 	@Transactional
 	public void deleteMedicalHistory(Long medicalHistoryId) {
 		MedicalHistory medicalHistory = medicalHistoryRepository.findById(medicalHistoryId)
-			.orElseThrow(
-				() -> new MedicalHistoryNotFoundException("MedicalHistory with ID " + medicalHistoryId + " not found"));
+			.orElseThrow(() -> new OuchException(MedicalHistoryErrorCode.MEDICAL_HISTORY_NOT_FOUND));
 
 		medicalHistoryRepository.delete(medicalHistory);
 	}

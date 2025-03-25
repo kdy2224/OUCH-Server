@@ -16,7 +16,8 @@ import com.hy.ouch.dto.MessageResponse;
 import com.hy.ouch.dto.selfDiagnosis.request.AddSymptomsToDiagnosisRequest;
 import com.hy.ouch.dto.selfDiagnosis.request.DiagnosisCreateRequest;
 import com.hy.ouch.dto.selfDiagnosis.request.DiagnosisUpdateRequest;
-import com.hy.ouch.dto.selfDiagnosis.response.DiagnosisCreateResponse;
+import com.hy.ouch.dto.selfDiagnosis.response.DiagnosisCreateResponseDetailed;
+import com.hy.ouch.dto.selfDiagnosis.response.DiagnosisUpdateResponse;
 import com.hy.ouch.dto.selfDiagnosis.response.GetDiagnosisByUserIdResponse;
 import com.hy.ouch.dto.selfDiagnosis.response.GetDiagnosisResponse;
 import com.hy.ouch.dto.selfDiagnosis.response.GetSymptomsOfDiagnosisResponse;
@@ -34,7 +35,7 @@ public class SelfDiagnosisController {
 
 	//자가진단표 생성
 	@PostMapping
-	public DiagnosisCreateResponse createDiagnosis(@RequestBody @Valid DiagnosisCreateRequest request) {
+	public DiagnosisCreateResponseDetailed createDiagnosis(@RequestBody @Valid DiagnosisCreateRequest request) {
 		return selfDiagnosisService.createDiagnosis(request);
 	}
 
@@ -65,10 +66,9 @@ public class SelfDiagnosisController {
 
 	//자가진단표 수정
 	@PutMapping("/{userId}/{diagnosisId}")
-	public ResponseEntity<MessageResponse> updateDiagnosis(@PathVariable Long diagnosisId, @PathVariable Long userId,
+	public DiagnosisUpdateResponse updateDiagnosis(@PathVariable Long diagnosisId, @PathVariable Long userId,
 		@RequestBody @Valid DiagnosisUpdateRequest request) {
-		selfDiagnosisService.updateDiagnosis(diagnosisId, userId, request);
-		return ResponseEntity.ok(new MessageResponse("Diagnosis has been updated."));
+		return selfDiagnosisService.updateDiagnosis(diagnosisId, userId, request);
 	}
 
 	//자가진단표에 증상 추가

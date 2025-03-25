@@ -2,7 +2,6 @@ package com.hy.ouch.controller.medicalHistory;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hy.ouch.dto.MessageResponse;
 import com.hy.ouch.dto.medicalHistory.request.MedicalHistoryCreateRequest;
 import com.hy.ouch.dto.medicalHistory.request.MedicalHistoryUpdateRequest;
 import com.hy.ouch.dto.medicalHistory.response.DateAndDisease;
 import com.hy.ouch.dto.medicalHistory.response.GetMedicalHistoryResponse;
 import com.hy.ouch.dto.medicalHistory.response.MedicalHistoryCreateResponse;
+import com.hy.ouch.dto.medicalHistory.response.MedicalHistoryUpdateResponse;
 import com.hy.ouch.service.medicalHistory.MedicalHistoryService;
 
 import jakarta.validation.Valid;
@@ -51,10 +50,9 @@ public class MedicalHistoryController {
 
 	//특정 건강상태 수정
 	@PutMapping("/{userId}/{medicalHistoryId}")
-	public ResponseEntity<MessageResponse> updateMedicalHistory(@RequestBody @Valid MedicalHistoryUpdateRequest request,
+	public MedicalHistoryUpdateResponse updateMedicalHistory(@RequestBody @Valid MedicalHistoryUpdateRequest request,
 		@PathVariable Long medicalHistoryId) {
-		medicalHistoryService.updateMedicalHistory(request, medicalHistoryId);
-		return ResponseEntity.ok(new MessageResponse("The health status has been updated."));
+		return medicalHistoryService.updateMedicalHistory(request, medicalHistoryId);
 	}
 
 	//특정 건강상태 삭제

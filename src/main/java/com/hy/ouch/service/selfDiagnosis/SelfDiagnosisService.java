@@ -18,7 +18,8 @@ import com.hy.ouch.domain.mapping.compositeKey.DiagnosisSymptomPK;
 import com.hy.ouch.dto.selfDiagnosis.request.AddSymptomsToDiagnosisRequest;
 import com.hy.ouch.dto.selfDiagnosis.request.DiagnosisCreateRequest;
 import com.hy.ouch.dto.selfDiagnosis.request.DiagnosisUpdateRequest;
-import com.hy.ouch.dto.selfDiagnosis.response.DiagnosisCreateResponse;
+import com.hy.ouch.dto.selfDiagnosis.response.DiagnosisCreateResponseDetailed;
+import com.hy.ouch.dto.selfDiagnosis.response.DiagnosisUpdateResponse;
 import com.hy.ouch.dto.selfDiagnosis.response.GetDiagnosisByUserIdResponse;
 import com.hy.ouch.dto.selfDiagnosis.response.GetDiagnosisResponse;
 import com.hy.ouch.dto.selfDiagnosis.response.GetSymptomsOfDiagnosisResponse;
@@ -39,7 +40,7 @@ public class SelfDiagnosisService {
 	private final RequestMappingHandlerAdapter requestMappingHandlerAdapter;
 
 	@Transactional
-	public DiagnosisCreateResponse createDiagnosis(DiagnosisCreateRequest request) {
+	public DiagnosisCreateResponseDetailed createDiagnosis(DiagnosisCreateRequest request) {
 
 		//일단 증상 리스트는 비워둔 채로 SelfDiagnosis 객체 생성
 		SelfDiagnosis selfDiagnosis = SelfDiagnosis.builder()
@@ -76,7 +77,7 @@ public class SelfDiagnosisService {
 		//SelfDiagnosis table 에 저장
 		selfDiagnosisRepository.save(selfDiagnosis);
 
-		return selfDiagnosisConverter.diagnosis2DiagnosisCreateResponse(selfDiagnosis);
+		return selfDiagnosisConverter.diagnosis2DiagnosisCreateResponseDetailed(selfDiagnosis);
 	}
 
 	@Transactional(readOnly = true)
@@ -120,7 +121,7 @@ public class SelfDiagnosisService {
 
 	@Transactional //setter 를 사용하지 않고 toBuilder 를 사용하여 업데이트(조금 깁니다..)
 	//SelfDiagnosis entity 클래스에 update 메서드를 추가하는 방식으로 하면 더 짧아지는데 그렇게 할까요?
-	public void updateDiagnosis(Long diagnosisId, Long userId, DiagnosisUpdateRequest request) {
+	public DiagnosisUpdateResponse updateDiagnosis(Long diagnosisId, Long userId, DiagnosisUpdateRequest request) {
 		SelfDiagnosis diagnosis = selfDiagnosisRepository.findById(diagnosisId)
 			.orElseThrow(() -> new OuchException(DiagnosisErrorCode.DIAGNOSIS_NOT_FOUND));
 
@@ -157,6 +158,8 @@ public class SelfDiagnosisService {
 		}
 
 		selfDiagnosisRepository.save(updatedDiagnosis);
+
+		return SelfDiagnosisConverter.diagnosis2DiagnosisUpdateResponse(updatedDiagnosis);
 	}
 
 	@Transactional

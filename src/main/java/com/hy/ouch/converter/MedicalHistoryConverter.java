@@ -15,7 +15,7 @@ import com.hy.ouch.dto.medicalHistory.response.MedicalHistoryUpdateResponse;
 public class MedicalHistoryConverter {
 	public MedicalHistoryCreateResponse medicalHistory2MedicalHistoryResponse(MedicalHistory medicalHistory,
 		Long userId) {
-		return new MedicalHistoryCreateResponse(medicalHistory.getId(), userId,
+		return new MedicalHistoryCreateResponse(medicalHistory.getId(),
 			medicalHistory.getDisease(),
 			medicalHistory.getAllergy(),
 			medicalHistory.getBloodPressure(), medicalHistory.getBloodSugar(), medicalHistory.getMedicineHistory());
@@ -39,9 +39,8 @@ public class MedicalHistoryConverter {
 			medicalHistory.getMedicineHistory());
 	}
 
-	public MedicalHistoryUpdateResponse medicalHistory2MedicalHistoryUpdateResponse(MedicalHistory medicalHistory,
-		Long userId) {
-		return new MedicalHistoryUpdateResponse(medicalHistory.getId(), userId, medicalHistory.getDisease(),
+	public MedicalHistoryUpdateResponse medicalHistory2MedicalHistoryUpdateResponse(MedicalHistory medicalHistory) {
+		return new MedicalHistoryUpdateResponse(medicalHistory.getId(), medicalHistory.getDisease(),
 			medicalHistory.getAllergy(), medicalHistory.getBloodPressure(), medicalHistory.getBloodSugar(),
 			medicalHistory.getMedicineHistory());
 	}

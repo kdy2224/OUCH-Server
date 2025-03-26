@@ -170,6 +170,12 @@ public class SelfDiagnosisService {
 
 		for (String symptom : request.getSymptoms()) {
 
+			if (diagnosis.getSelfSymptomList()
+				.stream()
+				.anyMatch(selfSymptom -> selfSymptom.getSymptom().getName().equals(symptom))) {
+				throw new OuchException(DiagnosisErrorCode.SYMPTOM_ALREADY_ADDED);
+			}
+
 			Symptom foundSymptom = symptomRepository.findByName(symptom)
 				.orElseThrow(() -> new OuchException(DiagnosisErrorCode.SYMPTOM_NOT_FOUND));
 

@@ -3,6 +3,8 @@ package com.hy.ouch.service.mypage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hy.ouch.apiPayload.code.error.MypageErrorCode;
+import com.hy.ouch.apiPayload.exception.OuchException;
 import com.hy.ouch.converter.UserConverter;
 import com.hy.ouch.domain.Nation;
 import com.hy.ouch.domain.User;
@@ -24,17 +26,17 @@ public class MypageService {
 	@Transactional(readOnly = true)
 	public MypageUserInfoResponse myPageGetUserInfo(Long userId) {
 		User user = userRepository.findById(userId)
-			.orElseThrow(() -> new RuntimeException("User not found"));
+			.orElseThrow(() -> new OuchException(MypageErrorCode.USER_NOT_FOUND));
 		return userConverter.user2MypageUserInfoResponse(user);
 	}
 
 	@Transactional
 	public void myPageUpdateUserInfo(Long userId, MypageUserInfoUpdateRequest request) {
 		User user = userRepository.findById(userId)
-			.orElseThrow(() -> new RuntimeException("User not found"));
+			.orElseThrow(() -> new OuchException(MypageErrorCode.USER_NOT_FOUND));
 
 		Nation wantedNation = nationRepository.findById(request.getNationId())
-			.orElseThrow(() -> new RuntimeException("Nation not found"));
+			.orElseThrow(() -> new OuchException(MypageErrorCode.NATION_NOT_FOUND));
 
 		User updatedUser = user.toBuilder()
 			.nickname(request.getNickname())

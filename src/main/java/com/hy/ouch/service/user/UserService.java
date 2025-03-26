@@ -3,6 +3,8 @@ package com.hy.ouch.service.user;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hy.ouch.apiPayload.code.error.UserErrorCode;
+import com.hy.ouch.apiPayload.exception.OuchException;
 import com.hy.ouch.converter.UserConverter;
 import com.hy.ouch.domain.User;
 import com.hy.ouch.domain.enums.UserStatus;
@@ -22,7 +24,7 @@ public class UserService {
 
 	@Transactional(readOnly = true)
 	public UserInfoResponse getUserInfo(Long id) {
-		User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+		User user = userRepository.findById(id).orElseThrow(() -> new OuchException(UserErrorCode.USER_NOT_FOUND));
 
 		return userConverter.user2UserInfoResponse(user);
 	}
@@ -30,7 +32,7 @@ public class UserService {
 	@Transactional
 	public void deactivateUser(Long userId) {
 		User user = userRepository.findById(userId)
-			.orElseThrow(() -> new RuntimeException("User not found"));
+			.orElseThrow(() -> new OuchException(UserErrorCode.USER_NOT_FOUND));
 
 		User deactivatedUser = user.toBuilder()
 			.status(UserStatus.INACTIVE)
@@ -41,7 +43,7 @@ public class UserService {
 
 	@Transactional
 	public void deleteUser(Long id) {
-		User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+		User user = userRepository.findById(id).orElseThrow(() -> new OuchException(UserErrorCode.USER_NOT_FOUND));
 		userRepository.delete(user);
 	}
 

@@ -9,6 +9,7 @@ import com.hy.ouch.apiPayload.code.error.MedicalHistoryErrorCode;
 import com.hy.ouch.apiPayload.exception.OuchException;
 import com.hy.ouch.converter.MedicalHistoryConverter;
 import com.hy.ouch.domain.MedicalHistory;
+import com.hy.ouch.domain.User;
 import com.hy.ouch.dto.medicalHistory.request.MedicalHistoryCreateRequest;
 import com.hy.ouch.dto.medicalHistory.request.MedicalHistoryUpdateRequest;
 import com.hy.ouch.dto.medicalHistory.response.DateAndDisease;
@@ -57,6 +58,10 @@ public class MedicalHistoryService {
 	//특정 사용자의 모든 건강상태 조회
 	@Transactional
 	public List<DateAndDisease> getUsersAllMedicalHistory(Long userId) {
+
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new OuchException(MedicalHistoryErrorCode.USER_NOT_FOUND));
+
 		List<MedicalHistory> medicalHistory = medicalHistoryRepository.findAllByUserId(userId);
 		return medicalHistoryConverter.medicalHistory2GetUsersAllMedicalHistoryResponse(medicalHistory);
 	}

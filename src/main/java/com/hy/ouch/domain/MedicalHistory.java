@@ -2,7 +2,6 @@ package com.hy.ouch.domain;
 
 import com.hy.ouch.domain.common.BaseEntity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
@@ -30,9 +29,10 @@ public class MedicalHistory extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY) //cascade = CascadeType.ALL -> medicalHistory 삭제 시 user 도 삭제됨
 	// @JoinColumn(name = "user_id") //외래 키 이름을 user_id로 설정
-	@JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_medical_history_user", value = ConstraintMode.CONSTRAINT, foreignKeyDefinition = "ON DELETE CASCADE"))
+	@JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_medical_history_user",
+		value = ConstraintMode.CONSTRAINT, foreignKeyDefinition = "ON DELETE CASCADE"))
 	private User user;
 
 	@Column(nullable = true, columnDefinition = "TEXT")

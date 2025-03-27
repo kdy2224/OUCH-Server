@@ -39,6 +39,7 @@ public class SelfDiagnosisService {
 	private final SelfDiagnosisConverter selfDiagnosisConverter;
 	private final RequestMappingHandlerAdapter requestMappingHandlerAdapter;
 
+	//자가진단표 생성
 	@Transactional
 	public DiagnosisCreateResponseDetailed createDiagnosis(DiagnosisCreateRequest request) {
 
@@ -80,6 +81,7 @@ public class SelfDiagnosisService {
 		return selfDiagnosisConverter.diagnosis2DiagnosisCreateResponseDetailed(selfDiagnosis);
 	}
 
+	//특정 자가진단표 조회
 	@Transactional(readOnly = true)
 	public GetDiagnosisResponse getDiagnosis(Long diagnosisId) {
 		SelfDiagnosis diagnosis = selfDiagnosisRepository.findById(diagnosisId)
@@ -88,6 +90,7 @@ public class SelfDiagnosisService {
 		return selfDiagnosisConverter.diagnosis2GetDiagnosisResponse(diagnosis);
 	}
 
+	//특정 사용자의 모든 자가진단표 조회
 	@Transactional(readOnly = true)
 	public List<GetDiagnosisByUserIdResponse> getAllDiagnosisByUserId(Long userId) {
 		User user = userRepository.findById(userId)
@@ -103,6 +106,7 @@ public class SelfDiagnosisService {
 		return responseList;
 	}
 
+	//특정 자가진단표 삭제
 	@Transactional
 	public void deleteDiagnosis(Long diagnosisId) {
 		SelfDiagnosis diagnosis = selfDiagnosisRepository.findById(diagnosisId)
@@ -111,6 +115,7 @@ public class SelfDiagnosisService {
 		selfDiagnosisRepository.delete(diagnosis);
 	}
 
+	//특정 자가진단표의 증상 목록 조회
 	@Transactional(readOnly = true)
 	public GetSymptomsOfDiagnosisResponse getSymptomsOfDiagnosis(Long diagnosisId) {
 		SelfDiagnosis diagnosis = selfDiagnosisRepository.findById(diagnosisId)
@@ -119,8 +124,9 @@ public class SelfDiagnosisService {
 		return selfDiagnosisConverter.diagnosis2GetSymptomsOfDiagnosisResponse(diagnosis);
 	}
 
-	@Transactional //setter 를 사용하지 않고 toBuilder 를 사용하여 업데이트(조금 깁니다..)
-	//SelfDiagnosis entity 클래스에 update 메서드를 추가하는 방식으로 하면 더 짧아지는데 그렇게 할까요?
+	//자가진단표 수정
+	//SelfDiagnosis entity 클래스에 update 메서드를 추가하는 방식으로 바꿀까요?
+	@Transactional
 	public DiagnosisUpdateResponse updateDiagnosis(Long diagnosisId, Long userId, DiagnosisUpdateRequest request) {
 		SelfDiagnosis diagnosis = selfDiagnosisRepository.findById(diagnosisId)
 			.orElseThrow(() -> new OuchException(DiagnosisErrorCode.DIAGNOSIS_NOT_FOUND));

@@ -20,12 +20,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter
-@Builder
-@Setter
+@Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class VisitHistory extends BaseEntity {
@@ -54,4 +52,12 @@ public class VisitHistory extends BaseEntity {
 	// @JoinColumn(name = "summary_id") -> visitHistory 를 삭제할 때(또는 User 를 삭제할 때) 오류 발생
 	private Summary summary;
 
+	private void setSummary(Summary summary) {
+		this.summary = summary;
+	}
+
+	public void assignSummary(Summary summary) {
+		this.setSummary(summary);
+		summary.setVisitHistory(this);
+	}
 }

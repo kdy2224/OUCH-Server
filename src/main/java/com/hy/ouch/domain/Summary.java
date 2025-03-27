@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Summary extends BaseEntity {
@@ -39,5 +39,9 @@ public class Summary extends BaseEntity {
 
 	@Column(columnDefinition = "TEXT")
 	private String contents_summary;
+
+	public void setVisitHistory(VisitHistory visitHistory) {
+		this.visitHistory = visitHistory;
+	}
 
 }

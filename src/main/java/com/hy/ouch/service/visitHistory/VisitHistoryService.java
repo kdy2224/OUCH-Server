@@ -67,6 +67,7 @@ public class VisitHistoryService {
 		return visitHistoryConverter.visitHistory2VisitHistoryCreateResponse(visitHistory);
 	}
 
+	//특정 의료기록 조회
 	@Transactional
 	public VisitHistoryUpdateResponse getVisitHistory(Long visitHistoryId) {
 		VisitHistory visitHistory = visitHistoryRepository.findById(visitHistoryId)

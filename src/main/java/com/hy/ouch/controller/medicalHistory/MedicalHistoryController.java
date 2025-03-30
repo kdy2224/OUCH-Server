@@ -39,9 +39,9 @@ public class MedicalHistoryController {
 	}
 
 	//특정 건강상태 조회
-	@GetMapping("/{userId}/{medicalHistoryId}")
-	public GetMedicalHistoryResponse getMedicalHistory(@PathVariable Long medicalHistoryId) {
-		return medicalHistoryService.getMedicalHistory(medicalHistoryId);
+	@GetMapping("/{userId}/{healthStatusId}")
+	public GetMedicalHistoryResponse getMedicalHistory(@PathVariable Long healthStatusId) {
+		return medicalHistoryService.getMedicalHistory(healthStatusId);
 	}
 
 	//특정 사용자의 모든 건강상태 조회
@@ -51,16 +51,16 @@ public class MedicalHistoryController {
 	}
 
 	//특정 건강상태 수정
-	@PutMapping("/{userId}/{medicalHistoryId}")
+	@PutMapping("/{userId}/{healthStatusId}")
 	public MedicalHistoryUpdateResponse updateMedicalHistory(@RequestBody @Valid MedicalHistoryUpdateRequest request,
-		@PathVariable Long medicalHistoryId) {
-		return medicalHistoryService.updateMedicalHistory(request, medicalHistoryId);
+		@PathVariable Long healthStatusId) {
+		return medicalHistoryService.updateMedicalHistory(request, healthStatusId);
 	}
 
 	//특정 건강상태 삭제
-	@DeleteMapping("/{userId}/{medicalHistoryId}")
-	public ResponseEntity<MessageResponse> deleteMedicalHistory(@PathVariable Long medicalHistoryId) {
-		medicalHistoryService.deleteMedicalHistory(medicalHistoryId);
-		return ResponseEntity.ok(new MessageResponse("Medical history has been deleted."));
+	@DeleteMapping("/{userId}/{healthStatusId}")
+	public ResponseEntity<MessageResponse> deleteMedicalHistory(@PathVariable Long healthStatusId) {
+		medicalHistoryService.deleteMedicalHistory(healthStatusId);
+		return ResponseEntity.ok(new MessageResponse("The health status has been deleted."));
 	}
 }

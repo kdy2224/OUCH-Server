@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/visit-history")
+@RequestMapping("/medical-record")
 @RequiredArgsConstructor
 public class VisitHistoryController {
 
@@ -38,9 +38,9 @@ public class VisitHistoryController {
 	}
 
 	// 특정 의료기록 조회
-	@GetMapping("/{userId}/{visitHistoryId}")
-	public VisitHistoryUpdateResponse getVisitHistory(@PathVariable Long visitHistoryId) {
-		return visitHistoryService.getVisitHistory(visitHistoryId);
+	@GetMapping("/{userId}/{medicalRecordId}")
+	public VisitHistoryUpdateResponse getVisitHistory(@PathVariable Long medicalRecordId) {
+		return visitHistoryService.getVisitHistory(medicalRecordId);
 	}
 
 	// 특정 사용자의 모든 의료기록 조회 (의료기록 메인 페이지용)
@@ -50,17 +50,17 @@ public class VisitHistoryController {
 	}
 
 	//특정 의료기록 삭제
-	@DeleteMapping("/{userId}/{visitHistoryId}")
-	public ResponseEntity<MessageResponse> deleteVisitHistory(@PathVariable Long visitHistoryId) {
-		visitHistoryService.deleteVisitHistory(visitHistoryId);
-		return ResponseEntity.ok(new MessageResponse("The visit history has been deleted."));
+	@DeleteMapping("/{userId}/{medicalRecordId}")
+	public ResponseEntity<MessageResponse> deleteVisitHistory(@PathVariable Long medicalRecordId) {
+		visitHistoryService.deleteVisitHistory(medicalRecordId);
+		return ResponseEntity.ok(new MessageResponse("The medical record has been deleted."));
 	}
 
 	//특정 의료기록 수정
-	@PutMapping("/{userId}/{visitHistoryId}")
+	@PutMapping("/{userId}/{medicalRecordId}")
 	public VisitHistoryUpdateResponse updateVisitHistory(@RequestBody @Valid VisitHistoryUpdateRequest request,
-		@PathVariable Long visitHistoryId) {
-		return visitHistoryService.updateVisitHistory(request, visitHistoryId);
+		@PathVariable Long medicalRecordId) {
+		return visitHistoryService.updateVisitHistory(request, medicalRecordId);
 	}
 
 }

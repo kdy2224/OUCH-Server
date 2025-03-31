@@ -10,9 +10,9 @@ import lombok.Getter;
 public enum DiagnosisErrorCode implements ErrorCode {
 
 	USER_NOT_FOUND(HttpStatus.NOT_FOUND, "DIAGNOSIS400", "User not found."),
-	SYMPTOM_NOT_FOUND(HttpStatus.NOT_FOUND, "DIAGNOSIS400", "Symptom not found."),
-	DIAGNOSIS_NOT_FOUND(HttpStatus.NOT_FOUND, "DIAGNOSIS400", "Diagnosis not found."),
-	SYMPTOM_ALREADY_ADDED(HttpStatus.BAD_REQUEST, "DIAGNOSIS400", "Symptom already added."),
+	SYMPTOM_NOT_FOUND(HttpStatus.NOT_FOUND, "DIAGNOSIS401", "Symptom not found."),
+	DIAGNOSIS_NOT_FOUND(HttpStatus.NOT_FOUND, "DIAGNOSIS402", "Diagnosis not found."),
+	SYMPTOM_ALREADY_ADDED(HttpStatus.BAD_REQUEST, "DIAGNOSIS403", "Symptom already added."),
 	;
 
 	private final HttpStatus httpStatus;

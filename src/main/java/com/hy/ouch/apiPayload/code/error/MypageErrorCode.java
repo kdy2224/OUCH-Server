@@ -10,7 +10,7 @@ import lombok.Getter;
 public enum MypageErrorCode implements ErrorCode {
 
 	USER_NOT_FOUND(HttpStatus.NOT_FOUND, "MYPAGE400", "User not found."),
-	NATION_NOT_FOUND(HttpStatus.NOT_FOUND, "MYPAGE400", "Nation not found."),
+	NATION_NOT_FOUND(HttpStatus.NOT_FOUND, "MYPAGE401", "Nation not found."),
 	;
 
 	private final HttpStatus httpStatus;
